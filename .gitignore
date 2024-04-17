@@ -173,4 +173,9 @@ cython_debug/
 todo.md
 
 *venv/
+*node_modules/
+
+
+
+npx tailwindcss -i ./static//styles/base.css -o ./static/styles/output.css --watch
 
