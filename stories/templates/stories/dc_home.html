@@ -1,0 +1,32 @@
+{% extends "stories/democraty.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title> Elections</title>
+{% endblock %}
+
+{% block body %}
+    <h1 class="p-6 text-5xl">
+        Elections
+    </h1>
+
+    <hr>
+
+    <div class="p-4 flex justify-between items-center ">
+        <h2 class=""> There are {{elections | length }} elections scheduled </h2>
+        <a href="/"> Get started</a>
+    </div>
+    
+    <div class="p-4 md:p-10">
+        {% for x in elections %}
+            <a href="{{x.id}}"> {{ x }}</a>
+        {% endfor %}
+    </div>
+
+    {% block details %}
+        
+    {% endblock %}
+
+
+{% endblock %}

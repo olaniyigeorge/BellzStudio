@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+    </head>
+
+    <body>
+        <h1 class="text-5xl text-purple-800 border p-8 font-medium">
+            <a href="/">Developer Stories</a>
+        </h1>
+
+
+
+        <hr >
+        <div class="w-full p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3 font-medium text-gray-900">
+            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
+                DemoCraty
+            </a>
+            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
+                DemoCraty
+            </a>
+            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
+                DemoCraty
+            </a>
+            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
+                DemoCraty
+            </a>
+            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
+                DemoCraty
+            </a>
+        </div>
+
+
+        
+    </body>
+</html>

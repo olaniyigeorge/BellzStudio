@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+    </head>
+
+    <title>
+        Election {{ election.id }}
+    </title>
+
+    <body>
+        
+        <h1 class="">
+            {{ election.name }}
+        </h1>
+        
+        
+        <ul>
+            <li>{{ election.date }}</li>
+            <li>{{ election.parties | length }} parties have registered for this election</li>
+            <li>
+                {% if time.diff < 1 %}
+                    <p> These are the current election results {{ election.voting_results }}</p> 
+                {% endif %}
+            </li>
+        </ul>
+
+
+        <p class="">
+            Voting will commence in the {{ time_diff }} days.
+        </p>
+
+        
+    </body>
+</html>

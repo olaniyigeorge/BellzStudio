@@ -1,0 +1,59 @@
+{% extends "stories/democraty.html" %}
+
+{% load static %}
+
+{% block title %}
+    <title> DemoCraty</title>
+{% endblock %}
+
+{% block body %}
+
+    <div class="w-full flex border-b justify-between gap-2 items-center p-4 md:p-8 lg:p-10">
+        <div class="w-2/3 md:w-1/2 flex flex-col">
+            
+            <h1 class="text-3xl md:text-5xl text-purple-700 font-bold">
+                <a href="/">DemoCraty</a>
+            </h1>
+    
+    
+            <p class="md:mt-5 text-sm">
+                A proposed solution to the inadequacies of the democratic and electoral process of Nigeria 
+            </p>
+        </div>
+    
+        <a href="{% url 'stories:dc_home' %}"class="flex-col justify-center items-center hover:scale-x-125 md:hover:scale-x-100 hover:text-white hover:bg-purple-700 transition ease-in-out md:1/2 bg-purple-100 rounded-md shadow p-2 flex ">
+            
+                <img 
+                    src="{% static 'images/vote.png' %}" 
+                    class="w-[60px]  md:w-[100px] lg:w-[120px] rounded-full h-auto"
+                >
+            
+                <p class="italic text-xs">
+                     Click icon to try 
+                </p>
+        </a>
+        
+        
+        
+    </div>
+
+
+    <p class="w-full flex py-4  justify-center items-center font-medium"> Inspirations </p>
+    <div class="w-full p-2  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3  text-gray-900">
+        
+        {% for x in inspos %}
+        <a href={{x.link}} target="_blank" class="p-3 border hover:bg-purple-100 rounded-md">
+            <div class="w-full">
+                <p class="line-clamp-3">{{x.message}}</p>
+
+                <span class="font-medium w-full  flex justify-end items-end ">{{ x.name }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+
+
+
+
+{% endblock %}
