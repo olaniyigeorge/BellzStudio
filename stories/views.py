@@ -1,7 +1,10 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import datetime
+
+from django.urls import reverse
 from .inspo import demo_craty_inspirations
-from .models import Election, Voter
+from .models import Election, Party, Voter
 
 
 
@@ -78,5 +81,34 @@ def ElectionDetails(request, id):
 
 
 
+def ElectionRegistration(request):
+    pass
+
+
+def Vote(request, id):
+    if request.method == "POST":
+        try:
+            selected_party = request.POST['party_choice']
+        except:
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('poll:home')))
+        
+        print("Selected Party ID: ", selected_party)
+        print("choice_id: ", Party.objects.get(id=selected_party))
+        print("Election id: ", Election.objects.get(pk=id))
+
+        # Create Vote instance with VOTER, PARTY AND ELECTION attrs
+        
+        return HttpResponseRedirect(
+                reverse(
+                        "stories:election_details",args=(id,)
+                        )
+        )
+    
+    else:
+        return HttpResponseRedirect(
+                reverse(
+                        "stories:election_details",args=(id,)
+                        )
+        )
 
 

@@ -52,7 +52,7 @@
 
             <div class="w-full bg-white border">
                 {% if vote and user_is_registered %}
-                    <form action="{% url 'stories:election_details' election.id %}" class="w-full flex justify-between" method="post">
+                    <form action="{% url 'stories:vote' election.id %}" class="w-full flex justify-between" method="post">
                         {% csrf_token %}
 
                         {% for party in election.parties.all %}
@@ -61,16 +61,16 @@
                                     {{party.name}}
                                 </label>
 
-                                <input type="radio" name={{ party.name }} value={{ party.id }}/>
+                                <input type="radio" name="party_choice" value="{{ party.id }}" />
                             </span>
                         {% endfor %}
-                        <input type="submit" class="p-2 border rounded-md" value="Vote"/>
+                        <input type="submit" class="p-2 text-white font-medium bg-purple-700 border rounded-md" value="Vote"/>
 
                     </form>
                 {% endif %}
             </div>
 
-
+  
             
             
 

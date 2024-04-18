@@ -22,6 +22,9 @@ class Party(models.Model):
 
     created_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f"{self.acronym}"
+
 
 
 class Election(models.Model):
@@ -55,15 +58,15 @@ class Election(models.Model):
     #             else:
     #                 print(f"{voter.name} is not registered to vote in {self.name}.")
 
-    # def vote(self, voter, party):
-    #     if party in self.parties.all() and voter.registered:
-    #         if voter not in self.voting_results.all():
-    #             self.voting_results.add(voter)
-    #             voter.vote(self, party)
-    #         else:
-    #             print(f"{voter.name} has already voted in {self.name}.")
-    #     else:
-    #         print(f"{voter.name} is not eligible to vote in {self.name}.")
+    def vote(self, voter, party):
+        if party in self.parties.all() and voter.registered:
+            if voter not in self.voting_results.all():
+                self.voting_results.add(voter)
+                voter.vote(self, party)
+            else:
+                print(f"{voter.name} has already voted in {self.name}.")
+        else:
+            print(f"{voter.name} is not eligible to vote in {self.name}.")
 
     def __str__(self):
         return self.name
