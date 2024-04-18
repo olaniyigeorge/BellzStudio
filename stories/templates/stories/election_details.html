@@ -52,12 +52,27 @@
 
             <div class="w-full bg-white border">
                 {% if vote and user_is_registered %}
-                    {% for party in {{ election.parties }}%}
-                        <input type="radio" name="{{party.name}}" value="{{party.id}}"/>
-                    {% endfor %}
-                    <input type="submit" class="p-2 border rounded-md" value="Vote"/>
-                {% endif%}
+                    <form action="{% url 'stories:election_details' {{election.id}} %}" class="w-full flex justify-between" method="post">
+                        {% csrf_token %}
+
+                        {% for party in election.parties.all %}
+                            <span class="flex">
+                                <label class="">
+                                    {{party.name}}
+                                </label>
+
+                                <input type="radio" name={{ party.name }} value={{ party.id }}/>
+                            </span>
+                        {% endfor %}
+                        <input type="submit" class="p-2 border rounded-md" value="Vote"/>
+
+                    </form>
+                {% endif %}
             </div>
+
+
+            
+            
 
 
         </div>
