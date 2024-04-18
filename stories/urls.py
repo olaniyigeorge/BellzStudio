@@ -10,6 +10,6 @@ urlpatterns = [
     # ------ DemoCraty ------
     path("dc/", DemoCratyIndex, name="dc_Index"),
     path("dc/home", DemoCratyDemo, name="dc_home"),
-    path("dc/<int:id>", ElectionDetails, name="election_details"),
+    path("dc/<uuid:id>", ElectionDetails, name="election_details"),
 
 ]   
