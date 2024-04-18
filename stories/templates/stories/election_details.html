@@ -52,7 +52,7 @@
 
             <div class="w-full bg-white border">
                 {% if vote and user_is_registered %}
-                    <form action="{% url 'stories:election_details' {{election.id}} %}" class="w-full flex justify-between" method="post">
+                    <form action="{% url 'stories:election_details' election.id %}" class="w-full flex justify-between" method="post">
                         {% csrf_token %}
 
                         {% for party in election.parties.all %}
