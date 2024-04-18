@@ -1,10 +1,11 @@
+import uuid
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import datetime
 
 from django.urls import reverse
 from .inspo import demo_craty_inspirations
-from .models import Election, Party, Voter
+from .models import Election, Party, Voter, Vote
 
 
 
@@ -30,6 +31,8 @@ def ElectionDetails(request, id):
     user = request.user
     message = ""
     reg= False
+    voted = False
+
     try:
         election = Election.objects.get(id=id)
     except:
@@ -62,10 +65,20 @@ def ElectionDetails(request, id):
         pass # print("Reg:", reg)
     except:
         pass
+
+    
+    # Check if user has voted
+    if voter:
+        try:
+            voted = Vote.objects.filter(voter=voter, election=election).exists()
+            print("This user has voted: ", voted)
+        except Exception as e:
+            print("Voted Exception: ", e)
+            voted = False
+
     print()
 
-    return render(request, 
-                  "stories/election_details.html", 
+    return render(request, "stories/election_details.html", 
                     {
                         'election': election, 
                         'time_diff': (election.date - now).days,
@@ -73,7 +86,8 @@ def ElectionDetails(request, id):
                         'voter': voter,
                         'message': message,
                         "vote": True,
-                        'user_is_registered': reg
+                        'user_is_registered': reg, 
+                        "voted": voted
 
                     }    
                 )
@@ -85,19 +99,34 @@ def ElectionRegistration(request):
     pass
 
 
-def Vote(request, id):
+def VoteView(request, id):
     if request.method == "POST":
         try:
             selected_party = request.POST['party_choice']
         except:
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse('poll:home')))
-        
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', reverse(
+                        "stories:election_details",args=(id,)
+                        )))
+        print("User: ", request.user)
+        try:
+            voter = Voter.objects.get(person=request.user)
+        except Exception as e:
+            print("Error: ", e)
+            return HttpResponseRedirect(
+                reverse(
+                        "stories:election_details",args=(id,)
+                        )
+        )
+        party = Party.objects.get(id=selected_party)
+        election = Election.objects.get(pk=id)
+        print("Voter: ", voter)
         print("Selected Party ID: ", selected_party)
-        print("choice_id: ", Party.objects.get(id=selected_party))
-        print("Election id: ", Election.objects.get(pk=id))
+        print("choice_id: ", party)
+        print("Election id: ", election)
 
         # Create Vote instance with VOTER, PARTY AND ELECTION attrs
-        
+        v= Vote(voter=voter, party=party, election=election)
+        v.save()
         return HttpResponseRedirect(
                 reverse(
                         "stories:election_details",args=(id,)
