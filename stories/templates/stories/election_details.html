@@ -8,7 +8,7 @@
     </head>
 
     <title>
-        Election {{ election.id }}
+        DemoCraty: {{ election.name }}
     </title>
 
     <body class="p-8 md:p-20 flex justify-center items-center  w-full h-screen">
@@ -40,35 +40,41 @@
                 <a href="/" class="text-red-500 ">{{ message }}</a>
             {% endif %}
 
-
-            {% if user_is_registered == False %}
-                <a href="/" class="text-red-500 ">You haven't registered for this election</a>
+            {% if voted == True %}
+                <a href="/" class="text-blue-500" > You have voted in this election </a>
             {% else %}
-                <p class="text-blue-500 ">You have registered for this election {{ reg }} </p>
+
+            {% endif %}
+
+
+            {% if user_is_registered == False  and not voted %}
+                <a href="/" class="text-red-500 ">You haven't registered for this election</a>
             {% endif %}
 
 
 
 
-            <div class="w-full bg-white border">
-                {% if vote and user_is_registered %}
-                    <form action="{% url 'stories:vote' election.id %}" class="w-full flex justify-between" method="post">
-                        {% csrf_token %}
+            
+            {% if not voted and user_is_registered %}
+            <div class="w-full bg-white border"></div>
+                <form action="{% url 'stories:vote' election.id %}" class="w-full flex flex-col" method="post">
+                    {% csrf_token %}
 
-                        {% for party in election.parties.all %}
-                            <span class="flex">
-                                <label class="">
-                                    {{party.name}}
-                                </label>
+                    {% for party in election.parties.all %}
+                        <span class="flex justify-center items-center space-x-3">
+                            <label class="">
+                                {{party.name}}
+                            </label>
 
-                                <input type="radio" name="party_choice" value="{{ party.id }}" />
-                            </span>
-                        {% endfor %}
-                        <input type="submit" class="p-2 text-white font-medium bg-purple-700 border rounded-md" value="Vote"/>
+                            <input type="radio" name="party_choice" value="{{ party.id }}" />
+                        </span>
+                    {% endfor %}
+                    <input type="submit" class="p-2 hover:bg-purple-800 text-white font-medium bg-purple-700 border rounded-md" value="Vote"/>
 
-                    </form>
-                {% endif %}
+                </form>
             </div>
+            {% endif %}
+            
 
   
             
