@@ -11,28 +11,59 @@
         Election {{ election.id }}
     </title>
 
-    <body>
-        
-        <h1 class="">
-            {{ election.name }}
-        </h1>
-        
-        
-        <ul>
-            <li>{{ election.date }}</li>
-            <li>{{ election.parties | length }} parties have registered for this election</li>
-            <li>
-                {% if time.diff < 1 %}
-                    <p> These are the current election results {{ election.voting_results }}</p> 
-                {% endif %}
-            </li>
-        </ul>
+    <body class="p-8 md:p-20 flex justify-center items-center  w-full h-screen">
+
+        <div class="w-full h-full flex flex-col bg-purple-100 items-ceter border p-4 rounded-md md:rounded-lg ">
+                
+            <h1 class="text-3xl md:text-5xl font-bold p-4 w-full flex justify-center">
+                {{ election.name }}
+            </h1>
+            
+            
+            <ul class="flex flex-col justify-start">
+                <li>{{ election.date }}</li>
+                <li>{{ election.parties.count }} parties have registered for this election</li>
+                <li>
+                    <p> Number of registered voters {{ election.registered_voters.count }}</p> 
+                    
+                </li>
+            </ul>
 
 
-        <p class="">
-            Voting will commence in the {{ time_diff }} days.
-        </p>
+            <p class="">
+                Voting will commence in {{ time_diff }} days.
+            </p>
 
-        
+
+
+            {% if not voter %}
+                <a href="/" class="text-red-500 ">{{ message }}</a>
+            {% endif %}
+
+
+            {% if user_is_registered == False %}
+                <a href="/" class="text-red-500 ">You haven't registered for this election</a>
+            {% else %}
+                <p class="text-blue-500 ">You have registered for this election {{ reg }} </p>
+            {% endif %}
+
+
+
+
+            <div class="w-full bg-white border">
+                {% if vote and user_is_registered %}
+                    {% for party in {{ election.parties }}%}
+                        <input type="radio" name="{{party.name}}" value="{{party.id}}"/>
+                    {% endfor %}
+                    <input type="submit" class="p-2 border rounded-md" value="Vote"/>
+                {% endif%}
+            </div>
+
+
+        </div>
+    
     </body>
+
+
+
 </html>
