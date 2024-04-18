@@ -17,3 +17,8 @@ class ElectionAdmin(admin.ModelAdmin):
 @admin.register(Party)
 class PartyAdmin(admin.ModelAdmin):
     list_display = ["id", "acronym", "name"]
+
+
+@admin.register(Vote)
+class VoteAdmin(admin.ModelAdmin):
+    list_display = ["id", "voter", "party", 'election']
