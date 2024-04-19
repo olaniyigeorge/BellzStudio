@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+
+        <title>
+            {% block title %}
+
+            {% endblock %}
+        </title>
+        
+
+        {% block scripts %}
+
+        {% endblock %}
+
+
+    </head>
+
+    <body>
+
+        {% block content %}
+
+        {% endblock %}
+
+    </body>
+</html>
