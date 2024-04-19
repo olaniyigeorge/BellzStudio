@@ -1,5 +1,6 @@
 from django.db import models
-import datetime 
+import datetime
+from django.urls import reverse 
 from django.utils import timezone
 import uuid
 from main.models import User
@@ -37,6 +38,10 @@ class Election(models.Model):
     def registered_voters_no(self):
 
         return self.registered_voters.count()
+    
+
+    def get_absolute_url(self):
+        return reverse("stories:election_details", kwargs={"id": self.id})
     # def conduct_election(self):
     #     if self.validate_election_date():
     #         self.register_voters()
