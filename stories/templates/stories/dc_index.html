@@ -42,7 +42,7 @@
     <div class="w-full px-4  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3  text-gray-900">
         
         {% for x in inspos %}
-        <a href={{x.link}} target="_blank" class="p-3 border hover:bg-purple-100 rounded-md">
+        <a href={{x.get_absolute_url}} target="_blank" class="p-3 border hover:bg-purple-100 rounded-md">
             <div class="w-full">
                 <p class="line-clamp-3">{{x.message}}</p>
 

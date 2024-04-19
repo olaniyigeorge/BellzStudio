@@ -1,17 +1,20 @@
+{% extends "stories/election_base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
 
-<html>
-    <head>
-        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
-    </head>
+{% block title %}
+    DemoCraty: {{ election.name }} 
+{% endblock %}
 
-    <title>
-        DemoCraty: {{ election.name }}
-    </title>
 
-    <body class="p-8 md:p-20 flex justify-center items-center  w-full h-screen">
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+<script src="{% static 'js/track_election.js' %}" defer></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="p-8 md:p-20 flex justify-center items-center  w-full h-screen">
 
         <div class="w-full h-full flex flex-col bg-purple-100 items-ceter border p-4 rounded-md md:rounded-lg ">
                 
@@ -19,61 +22,72 @@
                 {{ election.name }}
             </h1>
             
-            
-            <ul class="flex flex-col justify-start">
-                <li>{{ election.date }}</li>
-                <li>{{ election.parties.count }} parties have registered for this election</li>
-                <li>
-                    <p> Number of registered voters {{ election.registered_voters.count }}</p> 
-                    
-                </li>
-            </ul>
+            <div class="md:flex gap-2">
+                <div class="border-2 h-full w-full md:w-1/2">
+                    <ul class="flex flex-col justify-start">
+                        <li id="election_id" class="hidden">{{ election.id }}</li>
+                        <li>{{ election.date }}</li>
+                        <li>{{ election.parties.count }} parties have registered for this election</li>
+                        <li><p> Number of registered voters {{ election.registered_voters.count }}</p> </li>
+                        <li><p class="">Voting will commence in {{ time_diff }} days.</p> </li>
+                    </ul>
+                    <div id="notis" class="">
+                        {% if not voter %}
+                            <a href="/" class="text-red-500 ">{{ message }}</a>
+                        {% endif %}
+
+                        {% if voted == True %}
+                            <a href="/" class="text-blue-500" > You have voted in this election </a>
+                        {% else %}
+
+                        {% endif %}
 
 
-            <p class="">
-                Voting will commence in {{ time_diff }} days.
-            </p>
+                        {% if user_is_registered == False  and not voted %}
+                            <a href="/" class="text-red-500 ">You haven't registered for this election</a>
+                        {% endif %}
 
+                    </div>
 
+                    {% if not voted and user_is_registered %}
+                    <div class="w-full h-full bg-white border-2"></div>
+                        <form action="{% url 'stories:vote' election.id %}" class="w-full flex flex-col" method="post">
+                            {% csrf_token %}
+        
+                            {% for party in election.parties.all %}
+                                <span class="flex justify-center items-center space-x-3">
+                                    <label class="">
+                                        {{party.name}}
+                                    </label>
+        
+                                    <input type="radio" name="party_choice" value="{{ party.id }}" />
+                                </span>
+                            {% endfor %}
+                            <input type="submit" class="p-2 hover:bg-purple-800 text-white font-medium bg-purple-700 border rounded-md" value="Vote"/>
+        
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
 
-            {% if not voter %}
-                <a href="/" class="text-red-500 ">{{ message }}</a>
-            {% endif %}
+                <div id='chart' class="border w-full md:w-1/2">
 
-            {% if voted == True %}
-                <a href="/" class="text-blue-500" > You have voted in this election </a>
-            {% else %}
-
-            {% endif %}
-
-
-            {% if user_is_registered == False  and not voted %}
-                <a href="/" class="text-red-500 ">You haven't registered for this election</a>
-            {% endif %}
-
-
-
-
-            
-            {% if not voted and user_is_registered %}
-            <div class="w-full bg-white border"></div>
-                <form action="{% url 'stories:vote' election.id %}" class="w-full flex flex-col" method="post">
-                    {% csrf_token %}
-
-                    {% for party in election.parties.all %}
-                        <span class="flex justify-center items-center space-x-3">
-                            <label class="">
-                                {{party.name}}
-                            </label>
-
-                            <input type="radio" name="party_choice" value="{{ party.id }}" />
-                        </span>
-                    {% endfor %}
-                    <input type="submit" class="p-2 hover:bg-purple-800 text-white font-medium bg-purple-700 border rounded-md" value="Vote"/>
-
-                </form>
+                </div>
             </div>
-            {% endif %}
+            
+
+            
+
+
+            
+
+
+    
+
+
+
+            
+
             
 
   
@@ -83,8 +97,7 @@
 
         </div>
     
-    </body>
+    </div>
+{% endblock %}
 
 
-
-</html>
