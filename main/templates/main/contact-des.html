@@ -1,0 +1,27 @@
+{% extends "main/contact-us.html" %}
+{% load static %}
+
+{% block contactType %}
+<div class="w-full flex-col justify-center items-center p-3 ">
+    <h1 class="text-3xl text-center font-bold w-full my-3 ">
+        {% if destination == 'email' %}
+            Send me an <span class="text-black">{{ destination }}</span>
+        {% else %}
+            Reach out to me on <span class="text-black">{{ destination }}</span>
+        {% endif %}
+    </h1>
+
+    <div class="space-y-3 w-full transform duration-900">
+        <a href="{{ info.link  }}" target="_blank" class="">
+        
+            <p class="flex p-2 underline items-center justify-center hover:italic text-center"> {{info.username}} </p>
+
+            <img src="/static/{{info.icon_link}}" alt="{{destination}} page" class="w-full h-auto"> 
+        </a>
+    </div>
+    
+     
+</div>
+    
+{% endblock %} 
+

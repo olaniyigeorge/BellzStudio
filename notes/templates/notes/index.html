@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+    </head>
+
+    <body>
+        <div class=" p-8 space-y-4 border-b"> 
+            <h1 class="text-5xl text-purple-800 font-medium">
+                <a href="/">Notes</a>
+            </h1>
+
+            <p> How I deal with my wandering thoughts</p>
+        </div>
+    
+        <div class="w-full">
+            <div class="border bg-gray-400 p-2">
+                
+                    {{ d }}
+                    {{ t }}
+                
+            </div>
+
+        </div>
+
+
+        
+    </body>
+</html>

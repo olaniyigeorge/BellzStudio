@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Third Part Apps
-    "channels",
+    # "channels",
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # My Apps
     "main",
     "stories",
+    "notes",
 
 ]
 
@@ -58,14 +59,14 @@ MIDDLEWARE = [
 ]
 
 
-CHANNEL_LAYERS = {
-        'default': {
-            'BACKEND': 'channels_redis.core.RedisChannelLayer',
-            'CONFIG': {
-                "hosts": [('127.0.0.1', 6379)],
-            },
-        },
-}
+# CHANNEL_LAYERS = {
+#         'default': {
+#             'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#             'CONFIG': {
+#                 "hosts": [('127.0.0.1', 6379)],
+#             },
+#         },
+# }
 
 
 ROOT_URLCONF = "BellzStudio.urls"
@@ -86,8 +87,8 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "BellzStudio.wsgi.application"
-ASGI_APPLICATION = "BellzStudio.asgi.application"
+WSGI_APPLICATION = "BellzStudio.wsgi.application"
+# ASGI_APPLICATION = "BellzStudio.asgi.application"
 
 
 # Database
