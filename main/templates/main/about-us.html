@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+    <head>
+        <title> About Us: Bellz Studio</title>
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+    </head>
+
+    <body class="bg-slate-50">
+        <div class=" w-full flex flex-col md:justify-between md:items-center px-2 md:px-20 h-full">
+            <div class="w-full p-4  md:space-x-4 ">
+                <div class=" space-y-1">
+                    <h2 class="font-extrabold text-purple-600 text-5xl md:text-7xl">
+                        <a href="/" class="w-full text-start ">About Us</a> 
+                    </h1>
+                    <p class="italic "> Building micro services & products we believe should exist  </p>
+
+                    <p 
+                    class="mt-5"
+                    > 
+                        Bellz Studio was birthed from the idea that there is a lot of good that could be good that could be done from a small place when tech is applied to doing what it does best; making life easier. 
+                    </p>
+                </div>
+                
+
+                <div class=" space-y-1 mt-10 md:mt-0">
+                    <h2 class="font-extrabold text-purple-600 text-5xl md:text-7xl">
+                        <a href="/" class="w-full text-start ">Our Mission</a> 
+                    </h1>
+                    <p class="italic "> Building micro services & products we believe should exist  </p>
+
+                    <p class="mt-5">
+                        Our mission is to build solutions to as many problems as we can in our immediate locale and document the journey while at it. For now, that locale means Akure, Ondo State, Nigeria.
+                    
+                        We have a series of pain points we are working on which you can see <a href="{% url 'stories:dc_home' %}">here</a>
+                        
+                        We consider ourselves successful when we can get at least a thousand people to actually use this products to deal with the issues they address.
+                    </p>
+    
+                </div>
+            </div>  
+            
+
+
+
+        
+        
+        </div>
+        
+    </body>
+
+</html>
