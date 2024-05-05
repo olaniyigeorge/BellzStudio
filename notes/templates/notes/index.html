@@ -7,22 +7,64 @@
         <link rel="stylesheet" href="{% static 'styles/output.css' %}">
     </head>
 
-    <body>
-        <div class=" p-8 space-y-4 border-b"> 
-            <h1 class="text-5xl text-purple-800 font-medium">
-                <a href="/">Notes</a>
-            </h1>
+    <body class="bg-slate-50">
+        <div class="p-2 md:p-4 flex justify-between items-center space-y-3 border-b"> 
+            <div class="">
+                <h1 class="text-5xl text-purple-600 font-bold">
+                    <a href="/">Notes</a>
+                </h1>
 
-            <p> How I deal with my wandering thoughts</p>
+                <p> How I deal with my wandering thoughts</p>
+            </div>
+
+            <button class="text-white bg-purple-600 p-2 rounded-md">
+                <a href="{% url 'notes:write-note' %}"> Write</a>
+            </button>
         </div>
     
         <div class="w-full">
-            <div class="border bg-gray-400 p-2">
+            <div 
+                id="date-selector" 
+                class=" text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">
                 
-                    {{ d }}
-                    {{ t }}
-                
+                    {% for day in week %}
+                        <button class="text-xs md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold focus:bg-purple-100 focus:font-bold rounded-md transition-colors ease-in-out ">
+                            <a 
+                                href="{% url 'notes:notes-by-date' day %}" 
+                                class="transition-colors ease-in-out ">  
+                                
+                                {{day}} 
+                            </a>
+                        </button>
+                    {% endfor %}
             </div>
+
+            <div 
+                id="tag-selector" 
+                class="text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">        
+                
+                {% for tag in tags %}
+                    <a 
+                        href="{% url 'notes:notes-by-idea' tag.id %}" 
+                        class="text-xs md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold focus:bg-purple-100 focus:font-bold rounded-md transition-colors ease-in-out ">  
+                        
+                        {{tag.name}} 
+                    </a>
+                    
+                {% endfor %}
+            
+            </div>
+
+    
+    
+    
+            <div class="border p-3">    
+                {% block notes %}
+                    
+        
+                {% endblock %}
+            </div>
+        
 
         </div>
 
