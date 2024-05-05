@@ -30,6 +30,7 @@ def index(request):
 
     return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags})
 
+import uuid 
 def NewNote(request):
     '''
     On GET: This view returns the entry form page on get
@@ -42,19 +43,30 @@ def NewNote(request):
 
 
         # Get submited entry text
-        ti = request.POST['entry_text']
-        entry_text = request.POST['entry_text']
-        entry_text = request.POST['entry_text']
+        title = request.POST['title']
+        text = request.POST['text']
+        tags = request.POST['tags']
 
+        print("title: ", title)
+        print("text: ", text)
+        print("tags: ", tags)
+    
+        tags_list = tags.split(',')
 
+        tags_uuid = [uuid.UUID(tag.strip()) for tag in tags_list]
         
+        
+        print("Tags list: ", len(tags_uuid))
+        # # # Create new note instance
+        try:
+            new_note = Note.objects.create(title=title, text=text)
+            new_note.tags.set(tags_uuid)
+        except Exception as e:
+            print("Error: ", e)
+            return HttpResponseRedirect(reverse("notes:index"))
 
-
-        # Create new entry instance
-        new_entry = Note.objects.create(text=entry_text)
-
-        # Save new entry instance
-        new_entry.save()
+        # # # Save new entry instance
+        # new_note.save()
 
         # Redirect back home
         return HttpResponseRedirect(reverse("notes:index"))
@@ -99,7 +111,7 @@ def NoteDate(request, date):
     # notes_tags = set(notes_tags)
     # notes_tags = list(notes_tags)
 
-    print("\n------------\n")
+    
     for x in notes:
         for i in x.tags.values():
             notes_tags.append({
