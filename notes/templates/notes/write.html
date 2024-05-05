@@ -1,0 +1,66 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+    </head>
+
+    <body class="">
+        <div class="p-2 md:p-4 space-y-3 border-b bg-slate-50"> 
+            <h1 class="text-5xl text-purple-800 font-medium">
+                <a href="/notes">Notes</a>
+            </h1>
+
+            <p> How I deal with my wandering thoughts</p>
+        </div>
+    
+        <div id="notes-canvas" class="space-y-2 p-2 md:p-4 bg-slate-50">
+
+            <h1 class="text-2xl font-medium">
+                Write Note
+            </h1>
+            <p class="">
+                What's on your mind
+            </p>
+
+            <form class="text-gray-800" action="{% url 'notes:write-note' %}" method="POST">
+                {% csrf_token %}
+                
+                
+                {% for field in form %}
+                    {{ field.label }}    
+                    {{ field }}
+                {% endfor %}
+
+
+                <input type="submit" class="bg-purple-600 p-1 text-white cursor-pointer rounded" value="Post">
+            </form>
+        
+        </div>
+
+        <div class="mt-3">
+                <!-- 
+                    A TextField form to post entry text
+                -->
+                <form class="mx-auto bg-white p-4 space-y-2 rounded-lg shadow-lg w-2/3" action="{% url 'notes:write-note' %}" method="POST">
+                    {% csrf_token %}
+            
+                    <label class="flex justify-center underline font-[poppins] text-2xl text-mindpurple font-bold" for="entry_text"> Add Entry </label>
+                    <p class="mx-auto flex justify-center font-medium -my-2 text-mindtextmetal">What is on your mind?</p>
+                    <div class="p-2">
+                        <textarea class="w-full font-[poppins] focus:bg-mindcream h-64 p-2 bg-transparent focus:outline-mindpurple " type="text" name="entry_text" placeholder="What's on your mind? "></textarea>
+                    </div>
+                    
+                    <input class="w-2/3  bg-purple-600 mx-auto text-white font-medium hover:font-bold flex justify-center rounded-lg p-2" type="submit" value="Submit">
+                </form>
+                
+        </div>
+
+        
+    </body>
+</html>
+
+
+
