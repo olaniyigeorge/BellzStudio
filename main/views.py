@@ -34,12 +34,12 @@ def contactType(request, destination):
         "twitter": {
             'link': 'https://twitter.com/imoctborn',
             'username': '@imoctborn',
-            'icon_link': 'images/my-twitter.png'               
+            'icon_link': 'images/twit.png'               
         },
         "linkedin": {
-            'link': 'https://linkedin.com/abeleje-olaniyi',
+            'link': 'https://linkedin.com/in/abeleje-olaniyi',
             'username': 'Abeleje Olaniyi',
-            'icon_link': 'images/my-linkedin.png'               
+            'icon_link': 'images/linkedin_pfp.jpeg'               
         },
         "email": {
             'link': 'mailto:olaniyigeorge77@gmail.com',
