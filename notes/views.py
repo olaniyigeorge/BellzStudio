@@ -21,11 +21,33 @@ def index(request):
     for x in range(-3, 4):
         week.append(d + timedelta(days=x))
 
+    try:
+        tag_param = request.GET['tag']
+        print("Tag Param: ", request.GET['tag'])
+    except Exception as e:
+        tag_param = None
+        print("Error: ", e)
+    
+    if tag_param:
+        try:
+            tag_param = f"#{tag_param}"
+            tag_param = IdeaTag.objects.get(name=tag_param)
+        except Exception as e:
+            print("No tag: ", e)
+            tag_param = None
+    
+    # Notes
+    if tag_param == None:
+        notes = Note.objects.all()
+    else:
+        notes = tag_param.my_notes
+    
+    
+
     # Tags
     tags = IdeaTag.objects.all()
 
-    # Notes
-    notes = Note.objects.all()
+
 
 
     return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags})
@@ -98,7 +120,12 @@ def NewNote(request):
 
 def NoteDate(request, date):
     print("Date: ", date)
-    print("Tag Param: ", request.GET['tag'])
+    try:
+        tag_param = request.GET['tag']
+        print("Tag Param: ", request.GET['tag'])
+    except Exception as e:
+        tag = None
+        print("Error: ", e)
 
 
     # Date Selector  content_params path
@@ -112,13 +139,13 @@ def NoteDate(request, date):
     # notes_tags = set(notes_tags)
     # notes_tags = list(notes_tags)
 
-    
-    for x in notes:
-        for i in x.tags.values():
-            notes_tags.append({
-                            'id': dict(i)['id'],
-                            'name': dict(i)['name']
-                        })
+    if tag == None:
+        for x in notes:
+            for i in x.tags.values():
+                notes_tags.append({
+                                'id': dict(i)['id'],
+                                'name': dict(i)['name']
+                            })
 
     return render(request, 'notes/notes-date.html', 
                   {
@@ -126,7 +153,6 @@ def NoteDate(request, date):
                     "day_notes": notes,
                     "tags": notes_tags
                 })
-
 
 def IdeaNotes(request, id):
     try:
