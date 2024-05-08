@@ -3,7 +3,7 @@ from django.shortcuts import render
 from datetime import timedelta, datetime
 from datetime import date as realDate
 import time
-
+import uuid 
 from django.urls import reverse
 
 from notes.forms import NoteForm
@@ -30,7 +30,7 @@ def index(request):
 
     return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags})
 
-import uuid 
+
 def NewNote(request):
     '''
     On GET: This view returns the entry form page on get
@@ -98,9 +98,10 @@ def NewNote(request):
 
 def NoteDate(request, date):
     print("Date: ", date)
-    print("Request: ", request)
+    print("Tag Param: ", request.GET['tag'])
 
-    # Date Selector
+
+    # Date Selector  content_params path
     week = []
     d = realDate.today()
     for x in range(-3, 4):
