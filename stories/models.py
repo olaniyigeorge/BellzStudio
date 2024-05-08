@@ -15,6 +15,11 @@ class Voter(models.Model):
 
     def __str__(self):
         return f"{self.person.email}"
+    
+
+    def save(self, *args, **kwargs):
+        self.id = self.person.id
+        super().save(*args, **kwargs)
 
 class Party(models.Model):
     name = models.CharField(max_length=200)
