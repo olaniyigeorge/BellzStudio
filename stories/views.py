@@ -76,27 +76,61 @@ def ElectionDetails(request, id):
             print("Voted Exception: ", e)
             voted = False
 
-    print()
+    # Get votes in this election
+    results = {}    
+    votes = Vote.objects.filter(election=id).count
+    for party in election.parties.values():
+        results[f"{party['name']}_result"] = Vote.objects.filter(election=id, party=party['id']).count
 
     return render(request, "stories/election_details.html", 
                     {
-                        'election': election, 
-                        'time_diff': (election.date - now).days,
-                        'user': request.user,
-                        'voter': voter,
-                        'message': message,
-                        "vote": True,
-                        'user_is_registered': reg, 
-                        "voted": voted
+                    'election': election, 
+                    'time_diff': (election.date - now).days,
+                    'user': request.user,
+                    'voter': voter,
+                    'message': message,
+                    "vote": True,
+                    'user_is_registered': reg, 
+                    "voted": voted,
+                    "votes": votes,
+                    "results": results
 
-                    }    
+                } 
                 )
 
 
 
 
-def ElectionRegistration(request):
-    pass
+def ElectionRegistration(request, id):
+    
+    if request.method == "POST":
+        voter_id = request.POST['voter']
+        
+        try: 
+            voter = Voter.objects.get(id=voter_id)
+            election = Election.objects.get(id=id)
+        except Exception as e:
+            print("Error: ", e)
+
+        # Add user to registered voters --- Redirect to reg page if more actions need to be done
+        try:
+            election.registered_voters.add(voter_id)
+        except Exception as e:
+            print("Registration error: ", e)
+
+        return HttpResponseRedirect(
+                reverse(
+                        "stories:election_details",args=(id,)
+                        )
+        )
+
+
+    else:
+        return HttpResponseRedirect(
+                reverse(
+                        "stories:election_details",args=(id,)
+                        )
+        )
 
 
 def VoteView(request, id):
