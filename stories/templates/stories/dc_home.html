@@ -13,15 +13,22 @@
 
     <hr>
 
-    <div class="p-4 flex justify-between items-center ">
-        <h2 class=""> There are {{elections | length }} elections scheduled </h2>
+    <div class="p-4 md:flex justify-between items-center ">
+        <span class="flex "> There are <p class="font-bold px-1"> {{elections | length }} </p> elections scheduled </span>
         <a href="/"> Get started</a>
     </div>
     
-    <div class="p-4 md:p-10">
-        {% for x in elections %}
-            <a href="{{x.id}}"> {{ x }}</a>
-        {% endfor %}
+    <div class="p-1 md:p-4">
+        <ul>
+            {% for x in elections %}
+                <a href="{{x.id}}">
+                    <li class="font-medium bg-purple-50 p-1  rounded">
+                        -> {{ x }}
+                    </li> 
+                </a>   
+            {% endfor %}    
+        </ul>
+
     </div>
 
     {% block details %}

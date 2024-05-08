@@ -7,33 +7,18 @@
         <link rel="stylesheet" href="{% static 'styles/output.css' %}">
     </head>
 
-    <body>
-        <h1 class="text-5xl text-purple-800 border p-8 font-medium">
-            <a href="/">Developer Stories</a>
-        </h1>
+    <body class="bg-slate-50">
+        <div class="bg-slate-50 flex flex-col flex-1">
+            <h1 class="text-5xl text-purple-600 border p-8 font-bold ">
+                <a href="/">Developer Stories</a>
+            </h1>
 
+            <div class="w-full p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3 font-medium text-gray-900">
+                <a href="{% url 'stories:dc_Index' %}" class="p-5 hover:bg-slate-100 border border-slate-200 rounded">
+                    DemoCraty
+                </a>
 
-
-        <hr >
-        <div class="w-full p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3 font-medium text-gray-900">
-            <a href="{% url 'stories:dc_Index' %}" class="p-5 hover:bg-purple-100 border rounded">
-                DemoCraty
-            </a>
-            <!-- <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
-                DemoCraty
-            </a>
-            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
-                DemoCraty
-            </a>
-            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
-                DemoCraty
-            </a>
-            <a href="{% url 'stories:dc_Index' %}" class="p-5 border rounded">
-                DemoCraty
-            </a> -->
+            </div>
         </div>
-
-
-        
     </body>
 </html>

@@ -16,41 +16,64 @@
 {% block content %}
     <div class="p-8 md:p-20 flex justify-center items-center  w-full h-screen">
 
-        <div class="w-full h-full flex flex-col bg-purple-100 items-ceter border p-4 rounded-md md:rounded-lg ">
+        <div class="w-full h-full flex flex-col bg-purple-50 items-ceter  p-4 rounded-md md:rounded-lg ">
                 
-            <h1 class="text-3xl md:text-5xl font-bold p-4 w-full flex justify-center">
-                {{ election.name }}
+            <h1 class="text-3xl text-center md:text-5xl font-bold p-3 w-full flex justify-center">
+                <a href="/"> {{ election.name }}</a>
             </h1>
+            <h2 class="text-center p-1 space-x-2 w-full flex justify-center">
+                <p> Scheduled for:</p> <p class="font-medium "> {{ election.date }}</p>
+            </h2>
             
-            <div class="md:flex gap-2">
-                <div class="border-2 h-full w-full md:w-1/2">
-                    <ul class="flex flex-col justify-start">
-                        <li id="election_id" class="hidden">{{ election.id }}</li>
-                        <li>{{ election.date }}</li>
-                        <li>{{ election.parties.count }} parties have registered for this election</li>
-                        <li><p> Number of registered voters {{ election.registered_voters.count }}</p> </li>
-                        <li><p class="">Voting will commence in {{ time_diff }} days.</p> </li>
-                    </ul>
+            <div class="md:flex flex-reverse gap-2">
+                <div class="border rounded h-full w-full md:w-1/2">
+                    
+                        <p class="flex text-center justify-center">{{ election.parties.count }} parties have registered for this election</p>
+                        <span class="flex justify-around items-center">
+                            {% for party in election.parties.all %}
+                                <span class="hover:bg-purple-700 hover:text-white flex p-2 border bg-white rounded-md justify-center items-center space-x-3">
+                                    <p class="font-medium">{{party.name}}</p>
+                                </span>
+                            {% endfor %}
+                        </span>
+
+                        <p class="flex text-center justify-center"> Number of registered voters {{ election.registered_voters.count }}</p> 
+                        {% if time_diff > 0 %}
+                                <p class="flex text-center justify-center">Voting will commence in {{ time_diff }} days.</p> 
+                            {% else %}
+                                <p class="flex text-center justify-center text-red-500 font-bold underline">This election closed {{ time_diff }} days ago.</p>
+                        {% endif %}
+                    
+                
                     <div id="notis" class="">
                         {% if not voter %}
                             <a href="/" class="text-red-500 ">{{ message }}</a>
                         {% endif %}
 
                         {% if voted == True %}
-                            <a href="/" class="text-blue-500" > You have voted in this election </a>
+                            <p class="flex text-center justify-center text-blue-500" > You have voted in this election </p>
                         {% else %}
 
                         {% endif %}
 
 
                         {% if user_is_registered == False  and not voted %}
-                            <a href="/" class="text-red-500 ">You haven't registered for this election</a>
+                            <form action="{% url 'stories:election_registration' election.id %}" class="w-full flex flex-col" method="post">
+                                {% csrf_token %}
+
+                                <input type="type" hidden name="voter" value="{{ user.id }}" />
+                                
+                                <span class="flex space-x-3 items-center">
+                                    <p class="text-red-500"> You haven't registered for this election</p>
+                                    <input type="submit" class="p-1 hover:bg-purple-800 text-white font-medium bg-purple-700 border rounded-md" value="Register"/>
+                                </span>
+                            </form>
+                            
                         {% endif %}
 
                     </div>
 
-                    {% if not voted and user_is_registered %}
-                    <div class="w-full h-full bg-white border-2"></div>
+                    {% if not voted and user_is_registered  %}
                         <form action="{% url 'stories:vote' election.id %}" class="w-full flex flex-col" method="post">
                             {% csrf_token %}
         
@@ -66,33 +89,32 @@
                             <input type="submit" class="p-2 hover:bg-purple-800 text-white font-medium bg-purple-700 border rounded-md" value="Vote"/>
         
                         </form>
-                    </div>
                     {% endif %}
                 </div>
 
-                <div id='chart' class="border w-full md:w-1/2">
+                <div id='results' class="border rounded w-full md:w-1/2 p-2">
+                    <span class="flex text-5xl p-2 space-x-2  w-full justify-center items-center">
+                        <p class="font-bold"> {{ votes }} </p> 
+                        <p class="text-gray-800"> votes</p>
+                    </span>
+
+                    <span class="w-full space-y-2">
+                        {% for party in election.parties.all %}
+                            <span class="flex justify-between items-center p-2 border bg-white rounded-md justify-center items-center space-x-3">
+                                <p class="font-bold text-2xl">{{results | length}}</p>
+                                <p class="flex ">{{party.name}}</p>
+                                
+                            </span>
+                            
+                        {% endfor %}
+                        {% for r in results %}
+                            {{r}}
+                        {% endfor %}
+                    </span>
 
                 </div>
             </div>
-            
-
-            
-
-
-            
-
-
-    
-
-
-
-            
-
-            
-
-  
-            
-            
+        
 
 
         </div>
