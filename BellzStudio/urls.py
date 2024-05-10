@@ -28,5 +28,5 @@ urlpatterns = [
     path("notes/", include('notes.urls')),
 
     
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-# + static(settings.STATIC_URL)
+] + static(settings.STATIC_URL)
+# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
