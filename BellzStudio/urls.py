@@ -18,7 +18,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from BellzStudio import settings
-
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -26,7 +25,10 @@ urlpatterns = [
     path("", include('main.urls')),
     path("dev-stories/", include('stories.urls')),
     path("notes/", include('notes.urls')),
+]
 
-    
-] + static(settings.STATIC_URL)
-# + static(settings.STATIC_URL)
+
+if settings.ENVT == "DEV":
+    urlpatterns += static(settings.STATIC_URL)
+elif settings.ENVT == "STAGE":
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
