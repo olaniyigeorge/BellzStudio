@@ -4,7 +4,7 @@ from django.shortcuts import render
 import datetime
 
 from django.urls import reverse
-from .inspo import demo_craty_inspirations
+from .inspo import demo_craty_inspirations, insp
 from .models import Election, Party, Voter, Vote
 
 
@@ -19,7 +19,8 @@ def index(request):
 
 def DemoCratyIndex(request):
     inspos = demo_craty_inspirations
-    return render(request, "stories/dc_index.html", {'inspos': inspos})
+    inspo = insp
+    return render(request, "stories/dc_index.html", {'inspos': inspos, 'insp': inspo})
 
 def DemoCratyDemo(request):
     elections = Election.objects.all()
