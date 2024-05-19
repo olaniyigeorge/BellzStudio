@@ -9,5 +9,5 @@ urlpatterns = [
     path("write/", NewNote, name="write-note"),
     # path("<uuid:noteID>/", Note, name="note"),
     path("<str:date>/", NoteDate, name="notes-by-date"),
-    path("idea-tags/<uuid:id>/", IdeaNotes, name="notes-by-idea"),
+    path("idea-tags/<str:slug>/", IdeaNotes, name="notes-by-idea"),
 ]
