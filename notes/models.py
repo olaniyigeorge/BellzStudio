@@ -23,13 +23,22 @@ class IdeaTag(models.Model):
     def my_notes(self):
         return self.on_notes.all()
 
+class NotePrivacy(models.Model):
+    name = models.CharField(max_length=150)
+    level = models.IntegerField()
 
+    class Meta:
+        ordering = ('level',)
+
+    def __str__(self):
+        return f"{self.level}: {self.name}"
 
 class Note(models.Model):
     slug = models.SlugField(max_length=160, primary_key=True, unique=True, blank=True)
     title = models.CharField(max_length=150)
     text = models.TextField(null=False, blank=False)
     tags = models.ManyToManyField(IdeaTag, related_name='on_notes')
+    privacy_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True)
     written_at = models.DateTimeField(auto_now_add=True)
 
     class Meta: 
@@ -37,3 +46,8 @@ class Note(models.Model):
 
     def __str__(self): 
         return self.title 
+    
+
+
+
+
