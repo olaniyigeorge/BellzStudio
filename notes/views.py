@@ -154,9 +154,9 @@ def NoteDate(request, date):
                     "tags": notes_tags
                 })
 
-def IdeaNotes(request, id):
+def IdeaNotes(request, slug):
     try:
-        idea = IdeaTag.objects.get(id=id)
+        idea = IdeaTag.objects.get(slug=slug)
     except:
         idea = IdeaTag.objects.none()
     
