@@ -46,7 +46,7 @@
                 
                 {% for tag in tags %}
                     <a 
-                        href="{% url 'notes:notes-by-idea' tag.id %}" 
+                        href="{% url 'notes:notes-by-idea' tag.slug %}" 
                         class="text-xs md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold focus:bg-purple-100 focus:font-bold rounded-md transition-colors ease-in-out ">  
                         
                         {{tag.name}} 
