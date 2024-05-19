@@ -31,8 +31,6 @@ class Party(models.Model):
     def __str__(self):
         return f"{self.acronym}"
 
-
-
 class Election(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=150)
@@ -80,8 +78,6 @@ class Election(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 class Vote(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
