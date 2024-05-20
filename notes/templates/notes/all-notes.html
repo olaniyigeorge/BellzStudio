@@ -4,15 +4,15 @@
 
 
 {% block notes %}
-    <div id="notes-container" class="space-y-2">
+    <div id="notes-container" class="space-y-2 font-sans">
         {% for note in notes %}
 
-            <div class="p-2 border">
-                <h1 class="font-medium">
+            <div class="p-2 bg-opacity-30 bg-white border border-purple-100 rounded-md hover:scale-[101%] transition duration-300 shadow-sm shadow-purple-200">
+                <h1 class="font-bold text-gray-900 capitalize text-xl">
                     {{note.title}}
                 </h1>
-
-                <p class="">
+                
+                <p class="line-clamp-3 text-sm md:text-md">
                     {{note.text}}
                 </p>
 

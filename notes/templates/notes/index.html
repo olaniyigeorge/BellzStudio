@@ -23,8 +23,8 @@
             </button>
         </div>
     
-        <div class="w-full">
-            <div 
+        <div class="w-full ">
+            <!-- <div 
                 id="date-selector" 
                 class=" text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">
                 
@@ -38,28 +38,40 @@
                             </a>
                         </button>
                     {% endfor %}
-            </div>
+            </div> -->
 
-            <div 
-                id="tag-selector" 
-                class="text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">        
-                
-                {% for tag in tags %}
-                    <a 
-                        href="{% url 'notes:notes-by-idea' tag.slug %}" 
-                        class="text-xs md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold focus:bg-purple-100 focus:font-bold rounded-md transition-colors ease-in-out ">  
+            <div class=" flex flex-col space-y-1 items-center p-2">
+                <div 
+                    id="tag-selector" 
+                    class="text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">        
                         
-                        {{tag.name}} 
-                    </a>
+                        {% for tag in tags %}
+                            <a 
+                                href="{% url 'notes:notes-by-idea' tag.slug %}" 
+                                class="text-xs md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold focus:bg-purple-100 focus:font-bold rounded-md transition-colors ease-in-out ">  
+                                
+                                {{tag.name}} 
+                            </a>
+                            
+                        {% endfor %}
+                
+                </div>
+                
+                <span class="text-sm">
+                    <form method="POST" action="{% url 'notes:new-idea' %}">
+                        {% csrf_token %}
+                        <input class="p-1 focus:border rounded focus:border-purple-500  focus:ring-0 focus:outline-none" type="text" placeholder="New Idea Tag?" name="idea_name">
+                        <input type="submit" value="Save Idea" class="bg-white p-1 text-gray-600 rounded border border-purple-500 hover:text-white hover:bg-purple-700">
+                    </form>
                     
-                {% endfor %}
-            
+                </span>
+                
             </div>
 
     
     
     
-            <div class="border p-3">    
+            <div class="border p-3 md:px-20">    
                 {% block notes %}
                     
         

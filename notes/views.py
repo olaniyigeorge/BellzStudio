@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from datetime import timedelta, datetime
 from datetime import date as realDate
@@ -23,10 +23,10 @@ def index(request):
 
     try:
         tag_param = request.GET['tag']
-        print("Tag Param: ", request.GET['tag'])
+        # print("Tag Param: ", request.GET['tag'])
     except Exception as e:
         tag_param = None
-        print("Error: ", e)
+        # print("Error: ", e)
     
     if tag_param:
         try:
@@ -69,20 +69,13 @@ def NewNote(request):
         text = request.POST['text']
         tags = request.POST['tags']
 
-        print("title: ", title)
-        print("text: ", text)
         print("tags: ", tags)
-    
-        tags_list = tags.split(',')
 
-        tags_uuid = [uuid.UUID(tag.strip()) for tag in tags_list]
-        
-        
-        print("Tags list: ", len(tags_uuid))
         # # # Create new note instance
         try:
             new_note = Note.objects.create(title=title, text=text)
-            new_note.tags.set(tags_uuid)
+            new_note.tags.set(tags)
+
         except Exception as e:
             print("Error: ", e)
             return HttpResponseRedirect(reverse("notes:index"))
@@ -92,31 +85,25 @@ def NewNote(request):
 
         # Redirect back home
         return HttpResponseRedirect(reverse("notes:index"))
-
-        '''
-        submitted_form = AddEntryForm(request.POST)
-
-        if submitted_form.is_valid():
-            # Get authenticated user
-            user = request.user
-
-            # Create and save entry
-            entry_text = submitted_form.cleaned_data["entry_text"]
-
-            # Create entry. Not specifiying the date with make the date datetime.datetime.now() so far t
-            new_entry = Entry.objects.create(author=user, text=entry_text)
-
-            # Redirect back to home
-        else:
-            # If form sn't valid, redirect back to the create entry page and 
-            # prepopulate the form with the invalid entry
-            return HttpResponseRedirect(reverse("journal:create_entry"))
-        
-        pass
-        '''
     
     write_form_note = NoteForm()
     return render(request, 'notes/write.html', {'form': write_form_note})
+
+def NewIdea(request):
+    if request.method == "POST":
+
+        idea_name = request.POST['idea_name']
+
+        if len(idea_name) < 2:
+            return HttpResponseRedirect(reverse("notes:index"))
+
+        try:
+            IdeaTag.objects.get_or_create(name=idea_name)
+        except Exception as e:
+            return HttpResponse("Error creating tag")
+
+
+        return HttpResponseRedirect(reverse("notes:index"))
 
 def NoteDate(request, date):
     print("Date: ", date)
@@ -163,4 +150,5 @@ def IdeaNotes(request, slug):
     idea_notes = idea.my_notes()
     return render(request, 'notes/idea-notes.html', {'idea': idea, 'idea_notes': idea_notes})
 
-
+def NoteView(request, slug):
+    pass
