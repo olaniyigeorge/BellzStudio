@@ -24,8 +24,8 @@ class IdeaTag(models.Model):
         return self.on_notes.all()
 
 class NotePrivacy(models.Model):
-    name = models.CharField(max_length=150)
-    level = models.IntegerField()
+    name = models.CharField(max_length=150, unique=True)
+    level = models.IntegerField(unique=True)
 
     class Meta:
         ordering = ('level',)
