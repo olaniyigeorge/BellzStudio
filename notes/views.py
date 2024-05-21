@@ -7,7 +7,7 @@ import uuid
 from django.urls import reverse
 
 from notes.forms import NoteForm
-from .models import Note, IdeaTag
+from .models import Note, IdeaTag, NotePrivacy
 # Create your views here.
 
 
@@ -52,7 +52,6 @@ def index(request):
 
     return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags})
 
-
 def NewNote(request):
     '''
     On GET: This view returns the entry form page on get
@@ -65,15 +64,23 @@ def NewNote(request):
 
 
         # Get submited entry text
-        title = request.POST['title']
-        text = request.POST['text']
-        tags = request.POST['tags']
+        print("Form: ", request.POST)
+        d = dict(request.POST)
+        print("Dict form: ", d)
+        title = d['title'][0].title()
+        print("Title: ", title)
+        text = d['text'][0]
+        print("Text: ", text)
+        tags = d['tags']
+        print("Tags: ", tags)
+        privacy_level = d['privacy_level'][0]   # int(d['privacy_level'][0])+1
+        print("Privacy Level: ", privacy_level)
 
-        print("tags: ", tags)
 
         # # # Create new note instance
         try:
-            new_note = Note.objects.create(title=title, text=text)
+            pl = NotePrivacy.objects.get(level=privacy_level)
+            new_note = Note.objects.create(title=title, text=text, privacy_level=pl)
             new_note.tags.set(tags)
 
         except Exception as e:
@@ -152,3 +159,30 @@ def IdeaNotes(request, slug):
 
 def NoteView(request, slug):
     pass
+
+
+def Search(request):
+    query = request.GET['query'].lower()
+    print("Search Query: ", query)
+    note_results = []
+    notes = Note.objects.all()
+    for note in notes:
+        if query.lower() in note.text.lower():
+            note_results.append(note)
+
+    print(note_results)
+
+    idea_results = []
+    ideas = IdeaTag.objects.all()
+    for idea in ideas:
+        if query.lower() in idea.name.lower():
+            idea_results.append(idea)
+
+    print(idea_results)
+
+    return render(request, "notes/search.html", {
+        "note_results": note_results,
+        "idea_results": idea_results,
+        "results_length": len(note_results) + len(idea_results)
+
+        })
