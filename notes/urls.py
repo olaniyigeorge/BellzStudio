@@ -8,6 +8,7 @@ urlpatterns = [
     path("", index, name="index"),
     path("write/", NewNote, name="write-note"),
     path("new-idea/", NewIdea, name="new-idea"),
+    path("search/", Search, name="search"),
     path("<str:slug>/", NoteView, name="note"),
     path("<str:date>/", NoteDate, name="notes-by-date"),
     path("idea-tags/<str:slug>/", IdeaNotes, name="notes-by-idea"),
