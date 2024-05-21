@@ -12,7 +12,7 @@ class IdeaTagAdmin(admin.ModelAdmin):
 
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
-    list_display = ["slug", "title", "written_at"]
+    list_display = ["slug", "title", "written_at", 'privacy_level']
     list_filter = ["tags", "written_at"]
     search_fields = ["title", "text", ]
 
