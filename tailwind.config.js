@@ -4,6 +4,7 @@ module.exports = {
               "./main/**/*.{html,js}",
               "./stories/**/*.{html,js}",
               "./notes/**/*.{html,js}",
+              "./notes/**/inspo.py",
             ],
   theme: {
     extend: {
