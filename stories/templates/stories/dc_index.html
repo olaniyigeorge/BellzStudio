@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    <div class="w-full flex border-b justify-between gap-2 items-center p-4 md:p-6 lg:p-8">
+    <div class="w-full flex border-b justify-between gap-2 items-center p-4 ">
         <div class="w-2/3 md:w-1/2 flex flex-col">
             
             <h1 class="text-3xl md:text-5xl text-purple-600 font-extrabold">
@@ -16,7 +16,7 @@
             </h1>
     
     
-            <p class="md:mt-5 text-sm">
+            <p class="md:mt-5 text-sm md:text-md">
                 A proposed solution to the inadequacies of the democratic and electoral process of Nigeria 
             </p>
         </div>
@@ -36,11 +36,17 @@
         
         
     </div>
+    <a 
+        href="{% url 'notes:notes-by-idea' DemoCraty.slug %}"
+        class="w-full flex text-xl   mt-4 justify-center items-center font-medium underline "
+    >
 
+        <h1 class=""> Notes on my understanding of the oppotunity(problem)</h1>
+    </a>
 
     <p 
-        class="w-full flex text-xl py-6 mt-6 justify-center items-center font-bold">
-         Who else feels the same? 
+        class="w-full flex text-xl py-6 mt-4 justify-center items-center font-bold">
+        What are people saying about this opportunity? 
     </p>
 
 
@@ -50,6 +56,12 @@
          {{ x | safe }}
         {% endfor %}
     </div>
+
+
+
+    <!-- <div id="demo-notes" class="h-screen w-full animate-slideBtT bg-red-200">
+
+    </div> -->
 
 
 

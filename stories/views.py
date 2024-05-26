@@ -6,7 +6,7 @@ import datetime
 from django.urls import reverse
 from .inspo import demo_craty_inspirations
 from .models import Election, Party, Voter, Vote
-
+from notes.models import IdeaTag
 
 
 def index(request):
@@ -19,8 +19,8 @@ def index(request):
 
 def DemoCratyIndex(request):
     inspo = demo_craty_inspirations
-
-    return render(request, "stories/dc_index.html", {'insp': inspo})
+    democraty_idea = IdeaTag.objects.get(name="#DemoCraty")
+    return render(request, "stories/dc_index.html", {'insp': inspo, "DemoCraty": democraty_idea})
 
 def DemoCratyDemo(request):
     elections = Election.objects.all()
