@@ -15,9 +15,37 @@ module.exports = {
         'lg': '900px',   // Large devices (laptops/desktops)
         'xl': '1024px',   // Extra large devices (large laptops/desktops)
         'xxl': '1204px',  // 2x Extra large devices
-      
       },
-
+      keyframes: {
+        wiggle: {
+          '0%, 100%': {transform: 'rotate(-5deg)'},
+          '50%': {transform: 'rotate(5deg)'},
+          
+        },
+        slideRtL: {
+          from: {transform: 'translateX(25%)'},
+          to: {transform: 'translateX(0%)'},
+        },
+        slideLtR: {
+          from: {transform: 'translateX(-25%)'},
+          to: {transform: 'translateX(0%)'},
+        },
+        slideTtB: {
+          from: {transform: 'translateY(-25%)'},
+          to: {transform: 'translateY(0%)'},
+        },
+        slideBtT: {
+          from: {transform: 'translateY(35%)'},
+          to: {transform: 'translateY(0%)'},
+        }
+      },
+      animation: {
+        wiggle: 'wiggle 1s ease-in infinite',
+        slideRtL: 'slideRtL 1s ease-in-out ',
+        slideLtR: 'slideLtR 1s ease-in-out ',
+        slideTtB: 'slideTtB 1s ease-in-out ',
+        slideBtT: 'slideBtT 1s ease-in-out ',
+      },
     },
   },
   plugins: [],
