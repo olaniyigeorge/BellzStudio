@@ -15,6 +15,7 @@ from .models import Note, IdeaTag, NotePrivacy
 
 
 def index(request):
+    errors = {}
     # Date Selector
     week = []
     d = realDate.today()
@@ -42,15 +43,17 @@ def index(request):
     else:
         notes = tag_param.my_notes
     
-    
 
     # Tags
     tags = IdeaTag.objects.all()
 
 
 
+    #errors['invalid_idea_format'] = "Invalid idea format"
 
-    return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags})
+    print(errors)
+
+    return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags, 'errors': errors})
 
 def NewNote(request):
     '''
@@ -100,10 +103,12 @@ def NewIdea(request):
     if request.method == "POST":
 
         idea_name = request.POST['idea_name']
-
+        errors ={}
+        errors['invalid_idea_format'] = "Invalid idea format"
         if len(idea_name) < 2:
-            return HttpResponseRedirect(reverse("notes:index"))
-
+            return HttpResponseRedirect(reverse("notes:index", 
+                                                args=(), kwargs=()
+                                        ))
         try:
             IdeaTag.objects.get_or_create(name=idea_name)
         except Exception as e:
