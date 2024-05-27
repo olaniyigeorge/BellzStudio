@@ -1,13 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .models import User
 # Create your views here.
 
 
 
 def index(request):
+    user = request.user
     
-    return render(request, 'main/index.html', {})
+    try:
+        user_profile = User.objects.get(email=user)
+        print(user_profile.first_name)    
+    except:
+        user_profile = None
+    
+    return render(request, 'main/index.html', {'user': user_profile})
 
 
 def about(request):

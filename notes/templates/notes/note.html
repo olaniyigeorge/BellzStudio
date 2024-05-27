@@ -1,8 +1,8 @@
-{% extends 'notes/index.html' %}
+{% extends 'notes/base.html' %}
 
 
 {% block head %}
-    <title> {{note.title}} </title>        
+    <title> Note: {{note.title}} </title>        
     
     {% for tag in note.tags.values %}
         <meta description="{{tag.name}}" />
@@ -12,7 +12,7 @@
 
 
 
-{% block notes %}
+{% block outlet %}
     <div id="note-container" class="space-y-2 font-sans">
         <div class="p-2 bg-opacity-20 md:px-10 animate-slideLtR bg-white  rounded-md duration-300">
                 <h1 class="font-bold text-gray-900 capitalize text-3xl">

@@ -17,7 +17,11 @@
                     <h1 
                         class="font-bold text-gray-700 text-xl md:text-3xl"
                         >
-                        Hi there! This is
+                        {% if user.first_name %}
+                            Hi <span class="text-purple-700"> {{user.first_name}}</span>! Welcome to
+                        {% else %}
+                            Hi there! This is
+                        {% endif %} 
                     </h1>
                     <h2 class="font-extrabold text-purple-600 text-7xl">
                         <a href="" class="w-full text-start ">Bellz Studio </a> 
@@ -26,31 +30,31 @@
                 
                 <p class=""> Building micro services & products we believe should exist  </p>
 
-                <div class="w-full space-y-1 mt-10 md:flex md:flex-col justify-between items-center">
+                <div class="w-full space-y-1  mt-10 md:flex md:flex-col justify-between items-center">
                     <a 
                         href="/about-us" 
-                        class="p-2 md:p-1 hover:translate-x-5 transform duration-600  lg:p-2 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
+                        class="p-2 md:p-1 animate-slideLtR hover:translate-x-3 transform duration-600  lg:p-2 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
                     > 
                         About 
                     </a>
 
                     <a 
                         href="/notes" 
-                        class="p-2 md:p-1 lg:p-2 hover:translate-x-5 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
+                        class="p-2 md:p-1 lg:p-2 animate-slideRtL hover:translate-x-3 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
                     > 
                         Notes 
                     </a>
 
                     <a 
                         href="/dev-stories" 
-                        class="p-2 md:p-1 lg:p-2 hover:translate-x-5 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
+                        class="p-2 md:p-1 lg:p-2 animate-slideLtR hover:translate-x-3 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
                     > 
                         Stories
                     </a>
 
                     <a 
                         href="contact" 
-                        class="p-2 md:p-1 lg:p-2 hover:translate-x-5 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
+                        class="p-2 md:p-1 lg:p-2 animate-slideRtL hover:translate-x-3 rounded-md bg-white  transition ease-in flex justify-center px-5 hover:bg-purple-600 hover:text-white hover:font-bold  border w-full font-bold"
                     > 
                         Contact 
                     </a>
@@ -63,7 +67,7 @@
                     class="text-5xl animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out] font-bold w-full flex justify-center h-auto"
                 > 
                 
-                    <img src="{% static 'images/memoji.png' %}" class=" border-4 border-purple-600 w-full h-auto rounded-full"/>
+                    <img src="{% static 'images/memoji.png' %}" class="  border-4 border-purple-600 w-full h-auto rounded-full"/>
 
                 </a>
                 
