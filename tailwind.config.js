@@ -8,6 +8,12 @@ module.exports = {
             ],
   theme: {
     extend: {
+      colors: {
+        bellzpurple: '#700CFC',
+        "mindcream": "#FFFFDB",
+        "mindpurple": "#700170",
+        "mindtextmetal": "#121212"
+      },
       screens: {
         // 'xs': '320px',    // Extra small devices (phones)
         'sm': '450px',    // Small devices (phones)

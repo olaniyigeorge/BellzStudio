@@ -6,10 +6,15 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        {% block head %}
+                
+    
+        {% endblock %}
+        
     </head>
 
     <body class="bg-slate-50">
-        <div class="p-2 md:p-4 flex justify-between items-center space-y-3 border-b"> 
+        <div class="p-2 md:p-3 flex justify-between items-center space-y-3 border-b"> 
             <div class="">
                 <span class="flex items-center ">
                     <a class="font-bold p-2" href="/">
@@ -88,7 +93,7 @@
 
         </div>
 
-        <div class="border p-3 md:px-20">    
+        <div class=" p-3 md:px-20">    
             {% block notes %}
                 
     

@@ -163,7 +163,13 @@ def IdeaNotes(request, slug):
     return render(request, 'notes/idea-notes.html', {'idea': idea, 'idea_notes': idea_notes})
 
 def NoteView(request, slug):
-    pass
+    try:
+        note = Note.objects.get(slug=slug)
+    except:
+        note = None
+    
+    if note:
+        return render(request, "notes/note.html", {"note": note})
 
 
 def Search(request):
