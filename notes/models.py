@@ -5,9 +5,9 @@ from django.utils.text import slugify
 
 
 class IdeaTag(models.Model):
-    slug = models.SlugField(max_length=160, primary_key=True, unique=True, blank=True)
+    slug = models.SlugField(max_length=40, primary_key=True, unique=True, blank=True)
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     description = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
