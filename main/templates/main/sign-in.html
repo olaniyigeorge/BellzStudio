@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+
+{% block head %}
+    <title> Sign In</title>
+{% endblock %}
+
+
+
+{% block message %}
+    
+{% endblock %}
+
+
+{% block body %}
+    <div class="w-full h-screen flex flex-col text-white bg-gray-950 w-full flex justify-center items-center">
+        <div class="w-1/2 text-5xl text-purple-600 flex items-center justify-center font-bold px-5">
+            Sign In!
+        </div>
+
+        <div class="">
+            {% if message %}
+                <div class="w-full py-5 text-white font-bold bg-red-600 flex justify-center items-center"> 
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'main:sign-in' %}" method="post" class="w-full flex flex-col items-center">
+                    {% csrf_token %}
+                    
+                    <div class="w-full">
+                        <label class=""> Email</label>
+                        <input type="text" name="email" class="rounded p-2 text-gray-900 w-full "  placeholder="Email">  </input>
+                    </div>
+                    <div class="w-full">
+                        <label class=""> Password </label>
+                        <input type="text" name="password" class="rounded p-2 text-gray-900 w-full "  placeholder="Password"> </input>
+                    </div>
+                    <input 
+                        type="submit"  
+                        class="rounded-md hover:bg-purple-600 flex justify-center items-center bg-purple-600 my-4 p-2 w-full" 
+                        value="Sign In"
+                    >
+            </form>
+
+
+
+        
+        </div>
+
+        
+    </div>
+{% endblock %}

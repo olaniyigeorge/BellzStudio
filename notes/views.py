@@ -178,7 +178,6 @@ def NoteView(request, slug):
     
     return render(request, "notes/note.html", {"note": note})
 
-
 def Search(request):
     query = request.GET['query'].lower()
     print("Search Query: ", query)
@@ -205,7 +204,6 @@ def Search(request):
         "results_length": len(note_results) + len(idea_results)
 
         })
-
 
 def networks(request):
 

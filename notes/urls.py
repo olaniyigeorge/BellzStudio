@@ -9,13 +9,13 @@ urlpatterns = [
     path("write/", NewNote, name="write-note"),
     path("new-idea/", NewIdea, name="new-idea"),
     path("search/", Search, name="search"),
-    path("<str:slug>/", NoteView, name="note"),
-    path("<str:date>/", NoteDate, name="notes-by-date"),
+    path("note/<str:slug>/", NoteView, name="note"),
+    path("d/<str:date>/", NoteDate, name="notes-by-date"),
     path("idea-tags/<str:slug>/", IdeaNotes, name="notes-by-idea"),
 
 
     # ----------- NOTE REACH    -------------
-    path("networks/", networks, name="networks"),
+    path("n/join-network/", networks, name="join-network"),
     
     path("network/<str:name>/", network, name="network"),
     

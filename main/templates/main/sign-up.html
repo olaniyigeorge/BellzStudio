@@ -1,0 +1,60 @@
+{% extends 'main/base.html' %}
+
+{% block head %}
+    <title> Sign Up</title>
+{% endblock %}
+
+
+
+{% block message %}
+    
+{% endblock %}
+
+
+{% block body %}
+    <div class="w-full h-screen flex flex-col text-white bg-gray-950 w-full flex justify-center items-center">
+        <div class="w-1/2 text-5xl text-purple-600 flex items-center justify-center font-bold px-5">
+            Join Us!
+        </div>
+
+        <div class="">
+            {% if message %}
+                <div class="w-full py-5 text-white font-bold bg-red-600 flex justify-center items-center"> 
+                    {{ message }}
+                </div>
+            {% endif %}
+
+            <form action="{% url 'main:sign-up' %}" method="post" class="w-full flex flex-col space-y-2 items-center">
+                    {% csrf_token %}
+                    
+        
+                    <div class="w-full">
+                        <label class=""> Email</label>
+                        <input type="text" name="email" class="rounded p-2 text-gray-900 w-full "  placeholder="Email"> {{ field }} </input>
+                    </div>
+                    <div class="w-full">
+                        <label class=""> Password </label>
+                        <input type="text" name="password" class="rounded p-2 text-gray-900 w-full "  placeholder="Password"> {{ field }} </input>
+                    </div>
+                    <div class="w-full">
+                        <label class=""> Confirm Password </label>
+                        <input type="text" name="password_confirmation" class="rounded p-2 text-gray-900 w-full " placeholder="Confirm Password">  </input>
+                    </div>
+
+                    <div class="w-full flex justify-between">
+                        <label class=""> Reader? </label>
+                        <input type="radio" name="reader" class="p-1" >  </input>
+                    </div>
+                    
+                    <input 
+                        type="submit"  
+                        class="rounded-md hover:bg-purple-600 flex justify-center items-center bg-purple-600 my-4 p-2 w-full" value="Sign Up">
+                </form>
+
+
+        
+        </div>
+
+        
+    </div>
+{% endblock %}

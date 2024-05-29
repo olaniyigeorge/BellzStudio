@@ -28,29 +28,35 @@
                     </h1>
                 </div>
                 
+                <span class="">
+                    <p class=""> This means you will have access to read all my note marked <span class="italic font-medium">{{network.name}} </span></p>
+                    <p class=""> By extension, you can also read notes with privacy levels to the this level</span></p>
+                </span>
+                <span class="space-x-2">
+                    <a href="{% url 'main:sign-up' %}" class="mt-10 text-gray-700 font-medium"> Get familiar </a>
+                    <a href="{% url 'main:sign-in' %}" class="mt-10 text-gray-700 font-medium"> Sign In </a>
+                </span>
                 
-                <p class=""> This means you will have access to read all my note marked <span class="italic font-medium">{{network.name}} </span></p>
-            
             </div>    
             
-            <div class="w-full border-2 h-full justify-center items-center animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out]  md:w-1/2 mb-5 md:mb-0 flex justify-center">
-                <div class="w-full min-h-[150px] md:h-1/2 gap-2 overflow-x-auto flex p-2 border rounded-md">
+            <div class="w-full h-full justify-center items-center animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out]  md:w-1/2 md:mb-0 flex justify-center">
+                <div class="w-full min-h-[150px]  md:h-1/2 gap-2   flex  rounded-md">
                     {% for ntw in networks %}
-                <a 
-                    href="{% url 'notes:network' ntw.name %}" 
-                    class="text-5xl border rounded font-bold w-full flex flex-1 hover:bg-purple-100 justify-center h-auto"
-                > 
-                
-                     
-                        {% if network.name == ntw.name %}
-                            <p class="text-purple-600 text-xs p-2">{{ntw.name}} </p>
-                        {% else %}
-                            <p class="text-gray-900 text-xs p-2">{{ntw.name}} </p>
-                        {% endif %}
-                        
-                    
+                    <a 
+                        href="{% url 'notes:network' ntw.name %}" > 
+                        <div class="text-5xl border w-full min-w-[50px] rounded font-bold w-full flex flex-col justify-between hover:bg-purple-100 justify-center h-full">
 
-                </a>
+
+                                {% if network.name == ntw.name %}
+                                    <p class="text-purple-600 text-xs p-2">{{ntw.name}} </p>
+                                {% else %}
+                                    <p class="text-gray-900 text-xs p-2">{{ntw.name}} </p>
+                                {% endif %}
+                                
+                            <p class="text-gray-900 text-xs p-2"> Oops </p>
+                        </div>
+                    </a>
+
                 {% endfor%}
                 </div>
                 

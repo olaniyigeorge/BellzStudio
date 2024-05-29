@@ -18,6 +18,12 @@ urlpatterns = [
     path("profile/me", profile, name="profile"),
 
 
+    # ----------- USER AUTHENTICATION   -------------
+    path("get-familiar", signUp, name="sign-up"),
+    path("sign-in", signIn, name="sign-in"),
+    path("sign-out", signOut, name="sign-out"),
+
+
     
     
 ]
