@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        <title> BellzStudio </title>
+    </head>
+
+    <body class="relative w-full h-full">
+        
+        <div class="bg-slate-50 text-gray-800  w-full md:h-screen   flex flex-col md:space-x-4 lg:space-x-8 md:flex-row md:justify-between md:items-center px-2 md:px-20 lg:px-40 space-y-2 md:space-y-0 ">
+            
+            <div class="w-full  p-4 md:w-1/2 mt-8 md:mt-0 space-y-3">
+                <div class="mt-4">
+                    <h1 
+                        class="font-bold text-gray-700 text-xl md:text-3xl"
+                        >
+                        {% if user.first_name %}
+                            Hi <span class="text-purple-700"> {{user.first_name}}</span>! Welcome to
+                        {% else %}
+                            Hi there! This is
+                        {% endif %} 
+                    </h1>
+                    <h2 class="font-extrabold text-purple-600 text-7xl">
+                        <p class="w-full text-start ">About Me </p> 
+                    </h1>
+                </div>
+                
+                
+                <div class="flex flex-col">
+                    <p>Firstname</p>
+                    <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.first_name}}</p>
+                </div>
+
+                <div class="flex flex-col">
+                    <p>Lastname</p>
+                    <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.last_name}}</p>
+                </div>
+
+                <div class="flex flex-col">
+                    <p>Email</p>
+                    <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.email}}</p>
+                </div>
+            
+            </div>    
+            
+            <div class="w-full  md:flex-1 mb-5 md:mb-0 flex justify-center">
+                <a 
+                    href="/" 
+                    class="text-5xl  animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out] font-bold w-full flex justify-center h-auto"
+                > 
+                
+                    <img src="{% static 'images/memoji.png' %}" class="  border-4 border-purple-600 w-full h-auto rounded-full"/>
+
+                </a>
+                
+            </div>
+            
+            
+        </div>
+        <img src="{% static 'images/curlyVectorTop.svg' %}" alt="curlyV" class="absolute top-0 left-0 "/>
+        <img src="{% static 'images/curlyVectorBottom.svg' %}" alt="curlV" class=" absolute  -bottom-16 md:-bottom-1 right-0 "/>
+
+    </body>
+
+</html>

@@ -12,4 +12,12 @@ urlpatterns = [
     path("<str:slug>/", NoteView, name="note"),
     path("<str:date>/", NoteDate, name="notes-by-date"),
     path("idea-tags/<str:slug>/", IdeaNotes, name="notes-by-idea"),
+
+
+    # ----------- NOTE REACH    -------------
+    path("networks/", networks, name="networks"),
+    
+    path("network/<str:name>/", network, name="network"),
+    
+    
 ]

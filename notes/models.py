@@ -27,6 +27,11 @@ class NotePrivacy(models.Model):
     name = models.CharField(max_length=150, unique=True)
     level = models.IntegerField(unique=True)
 
+
+    # ---- Network Info ----
+    # color_code = models.CharField(max_length=20, null=True)
+
+
     class Meta:
         ordering = ('level',)
 
@@ -40,6 +45,9 @@ class Note(models.Model):
     tags = models.ManyToManyField(IdeaTag, related_name='on_notes')
     privacy_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True)
     written_at = models.DateTimeField(auto_now_add=True)
+
+
+    
 
     class Meta: 
         ordering = ('-written_at', ) 

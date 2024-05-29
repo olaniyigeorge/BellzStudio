@@ -11,5 +11,13 @@ urlpatterns = [
     path('', index, name="index"),
     path("about-us/", about, name="about-us"),
     path("contact/", contact, name="contact"),
-    path("contact/<str:destination>/", contactType, name="contact_type")
+    path("contact/<str:destination>/", contactType, name="contact_type"),
+
+
+    # ----------- USER MANGEMENT   -------------
+    path("profile/me", profile, name="profile"),
+
+
+    
+    
 ]

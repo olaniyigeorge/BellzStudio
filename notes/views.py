@@ -37,11 +37,19 @@ def index(request):
             print("No tag: ", e)
             tag_param = None
     
-    # Notes
-    if tag_param == None:
-        notes = Note.objects.all()
+
+    # Fetch notes based n user's network
+    # If request user is autheicted
+    if not request.user.is_authenticated:
+        if tag_param == None:
+            notes = Note.objects.filter(privacy_level__gte= 4)
+        else:
+            notes = tag_param.my_notes
     else:
-        notes = tag_param.my_notes
+        if tag_param == None:
+            notes = Note.objects.all()
+        else:
+            notes = tag_param.my_notes
     
 
     # Tags
@@ -192,8 +200,26 @@ def Search(request):
     print(idea_results)
 
     return render(request, "notes/search.html", {
+
         "note_results": note_results,
         "idea_results": idea_results,
         "results_length": len(note_results) + len(idea_results)
 
         })
+
+
+def networks(request):
+
+    networks = NotePrivacy.objects.all()
+    
+    return render(request, "notes/monitize/join-network.html", {"networks": networks})
+
+def network(request, name):
+    networks = NotePrivacy.objects.all()
+    try:
+        network = NotePrivacy.objects.get(name=name)
+    except:
+        network = None
+    
+    if network:
+        return render(request, "notes/monitize/network.html", {"network": network, "networks": networks})

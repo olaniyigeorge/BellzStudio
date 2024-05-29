@@ -11,14 +11,21 @@
     <div id="notes-container" class="space-y-2 font-sans">
         {% for note in notes %}
             <div class="p-2 bg-opacity-30 animate-slideBtT bg-white border border-purple-100 rounded-md hover:scale-[101%] transition duration-300 shadow-sm shadow-purple-200">
-                <a href="{% url 'notes:note' note.slug %}" >
-                    <h1 class="font-bold text-gray-900 capitalize text-xl">
-                        {{note.title}}
-                    </h1>
-
-                    <h1 class="font-bold text-gray-900 capitalize text-xl">
-                        {{note.dir}}
-                    </h1>
+                <div class="">
+                    <div class="w-full flex justify-between items-center">
+                        <a href="{% url 'notes:note' note.slug %} " >
+                            <h1 class="font-bold text-gray-900 capitalize text-xl">
+                                {{note.title}}
+                            </h1>
+                        </a>
+                        <a href="{% url 'notes:network' note.privacy_level.name %} " >
+                            <h1 class="font-bold text-purple-600 capitalize text-xs">
+                                {{note.privacy_level.name}}
+                            </h1>
+                        </a>
+                        
+                    </div>
+                    
                     
                     <p class="line-clamp-3 text-pretty text-sm md:text-md">
                         {{note.text}}
@@ -39,7 +46,7 @@
                     </span>
                     
 
-                </a>
+                </div>
             </div>
         {% endfor %}
     </div>

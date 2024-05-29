@@ -60,3 +60,34 @@ def contactType(request, destination):
     print(info)
 
     return render(request, "main/contact-des.html", {'destination': destination, 'info': contacts[destination]})
+
+
+
+
+# USER MANGEMENT
+
+
+def profile(request):
+    user = request.user
+    if not user.is_authenticated:
+        user = None
+        return render(request, 'main/not.html', {"user": user})
+        #user_profile = Profile.objects.get(user=user)
+    
+    return render(request, 'main/my-profile.html', {"user": user})
+
+
+
+
+# NETWORK
+
+
+def newtork(request):
+    user = request.user
+    if not user.is_authenticated:
+        user = None
+        return render(request, 'main/not.html', {"user": user})
+        #user_profile = Profile.objects.get(user=user)
+    
+    return render(request, 'main/my-profile.html', {"user": user})
+

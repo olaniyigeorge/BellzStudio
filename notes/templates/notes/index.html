@@ -26,13 +26,23 @@
                 </span>
                 
 
-                <p> How I deal with my wandering thoughts</p>
+                <p class="text-sm md:text-md"> How I deal with my wandering thoughts</p>
             </div>
 
-            <a href="{% url 'notes:write-note' %}" class="text-white relative bg-purple-600 p-2 rounded-md">
-                 Write
+            <div class="flex justify-center items-center space-x-1">
+                {% if user.is_authenticated %}
+                    <span class="rounded-full bg-purple-600 border-2 p-2 text-white"><a href="{% url 'main:profile' %}" class=" flex w-5 h-5 justify-center items-center font-bold"> {{user.email}}</a></span>
+                    {% else %}
+                    <span class="rounded-md bg-white border-2 py-2 px-1 sm:p-2 text-xs sm:text-md text-gray-800"><a href="{% url 'notes:networks' %}" class=" flex justify-center items-center font-medium"> Read my notes </a></span> 
+                {% endif %}
+                
+                <a href="{% url 'notes:write-note' %}" class="text-white relative bg-purple-600 p-2 rounded-md">
+                    Write
+   
+               </a>
+            </div>
 
-            </a>
+            
         </div>
     
         <div class="w-full space-y-1 py-1">

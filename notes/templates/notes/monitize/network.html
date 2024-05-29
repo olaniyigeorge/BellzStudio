@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        <title> BellzStudio </title>
+    </head>
+
+    <body class="relative w-full h-full">
+        
+        <div class="bg-slate-50 text-gray-800  w-full md:h-screen   flex flex-col md:space-x-4 lg:space-x-8 md:flex-row md:justify-between md:items-center px-2 md:px-20 lg:px-40 space-y-2 md:space-y-0 ">
+            
+            <div class="w-full  p-4 md:w-1/2 mt-8 md:mt-0 space-y-3">
+                <div class="mt-4">
+                    <h1 
+                        class="font-bold text-gray-700 text-xl md:text-3xl"
+                        >
+                        {% if user.is_authenticated %}
+                            Hi <span class="text-purple-700 "> {{user.first_name}} </span>! You are a member of my 
+                        {% else %}
+                            Hi there! You are a member of my 
+                        {% endif %} 
+                    </h1>
+                    <h2 class="font-extrabold text-purple-600 text-7xl">
+                        <p class="w-full text-start ">{{network.name}} </p> 
+                    </h1>
+                </div>
+                
+                
+                <p class=""> This means you will have access to read all my note marked <span class="italic font-medium">{{network.name}} </span></p>
+            
+            </div>    
+            
+            <div class="w-full border-2 h-full justify-center items-center animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out]  md:w-1/2 mb-5 md:mb-0 flex justify-center">
+                <div class="w-full min-h-[150px] md:h-1/2 gap-2 overflow-x-auto flex p-2 border rounded-md">
+                    {% for ntw in networks %}
+                <a 
+                    href="{% url 'notes:network' ntw.name %}" 
+                    class="text-5xl border rounded font-bold w-full flex flex-1 hover:bg-purple-100 justify-center h-auto"
+                > 
+                
+                     
+                        {% if network.name == ntw.name %}
+                            <p class="text-purple-600 text-xs p-2">{{ntw.name}} </p>
+                        {% else %}
+                            <p class="text-gray-900 text-xs p-2">{{ntw.name}} </p>
+                        {% endif %}
+                        
+                    
+
+                </a>
+                {% endfor%}
+                </div>
+                
+                
+            </div>
+            
+            
+        </div>
+        <img src="{% static 'images/curlyVectorTop.svg' %}" alt="curlyV" class="absolute top-0 left-0 "/>
+        <img src="{% static 'images/curlyVectorBottom.svg' %}" alt="curlV" class=" absolute  -bottom-16 md:-bottom-1 right-0 "/>
+
+    </body>
+
+</html>
