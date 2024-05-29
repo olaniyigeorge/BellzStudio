@@ -176,8 +176,7 @@ def NoteView(request, slug):
     except:
         note = None
     
-    if note:
-        return render(request, "notes/note.html", {"note": note})
+    return render(request, "notes/note.html", {"note": note})
 
 
 def Search(request):
