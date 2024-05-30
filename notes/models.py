@@ -57,24 +57,40 @@ class Note(models.Model):
     def __str__(self): 
         return self.title 
     
+def get_default_subscription_model():
+    return NotePrivacy.objects.get(name="Guests")
 
 class Reader(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=False, related_name='reader_profile')
 
-    subscription_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True)
+    subscription_level = models.ForeignKey(NotePrivacy, on_delete=models.SET(get_default_subscription_model), default=get_default_subscription_model )
     
     written_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     
+    
+    default =  {
+        'id': "test-uuid",
+        'user': {
+                "id": "test-user-id-1",
+                "email": "test-user-1"
+        },
+        'subscription_level': "test-uuid",
+        'written-at': "test-uuid",
+        'updated_at': "test-uuid",
+        
+    }
 
     class Meta: 
         ordering = ('-updated_at', ) 
 
     def __str__(self): 
-        return self.user.email 
-    
+        if self.user:
+            return f"{self.user.email}" 
+        else:
+            return f"{self.default['user']['email']}" 
 
 
 

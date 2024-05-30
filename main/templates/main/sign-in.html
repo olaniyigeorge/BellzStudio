@@ -24,6 +24,12 @@
                 </div>
             {% endif %}
 
+            {% if error %}
+                <div class="w-full py-5 text-white font-bold bg-red-600 flex justify-center items-center"> 
+                    {{ error }}
+                </div>
+            {% endif %}
+
             <form action="{% url 'main:sign-in' %}" method="post" class="w-full flex flex-col items-center">
                     {% csrf_token %}
                     

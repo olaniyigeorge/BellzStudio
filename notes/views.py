@@ -7,7 +7,7 @@ import uuid
 from django.urls import reverse
 
 from notes.forms import NoteForm
-from .models import Note, IdeaTag, NotePrivacy
+from .models import Note, IdeaTag, NotePrivacy, Reader
 # Create your views here.
 
 
@@ -16,12 +16,14 @@ from .models import Note, IdeaTag, NotePrivacy
 
 def index(request):
     errors = {}
+    print("Request user : ", request.user)
     # Date Selector
     week = []
     d = realDate.today()
     for x in range(-3, 4):
         week.append(d + timedelta(days=x))
-
+    # Tags
+    tags = IdeaTag.objects.all()
     try:
         tag_param = request.GET['tag']
         # print("Tag Param: ", request.GET['tag'])
@@ -41,22 +43,37 @@ def index(request):
     # Fetch notes based n user's network
     # If request user is autheicted
     if not request.user.is_authenticated:
-        if tag_param == None:
-            notes = Note.objects.filter(privacy_level__gte= 4)
-        else:
-            notes = tag_param.my_notes
-    else:
-        if tag_param == None:
+        notes = Note.objects.filter(privacy_level__gte= 4)
+        return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags, 'errors': errors})
+
+
+    # Get auth'd user reader profile
+    try:
+        reader_profile = Reader.objects.get(user=request.user)
+    except Exception as e:
+        # Couldn't get reader profile
+        print(e)
+        reader_profile = None
+    if reader_profile == None:
+        print(f"{request.user} is auth bu no reader profile assuming the" )
+        if request.user.is_staff:
             notes = Note.objects.all()
-        else:
-            notes = tag_param.my_notes
-    
+        
+    else:
+        reader = reader_profile
+        print("This Reader: ", reader)
+        
+        subscription = reader.subscription_level
+        print("Subscription: ", subscription)
+        print("Leve: ", subscription.level, "ID", subscription.id)
 
-    # Tags
-    tags = IdeaTag.objects.all()
+        notes = Note.objects.filter(privacy_level__level__gte=subscription.level)
+        
 
 
 
+
+    print("Result length: ", len(notes))
     #errors['invalid_idea_format'] = "Invalid idea format"
 
     print(errors)
@@ -167,8 +184,34 @@ def IdeaNotes(request, slug):
     except:
         idea = IdeaTag.objects.none()
     
-    idea_notes = idea.my_notes()
-    return render(request, 'notes/idea-notes.html', {'idea': idea, 'idea_notes': idea_notes})
+    # Get auth'd user reader profile
+    try:
+        reader_profile = Reader.objects.get(user=request.user)
+    except Exception as e:
+        # Couldn't get reader profile
+        print(e)
+        reader_profile = None
+    if reader_profile == None:
+        print(f"{request.user} is auth bu no reader profile assuming the" )
+        if request.user.is_staff:
+            notes = Note.objects.all()
+        else:
+            idea_notes = idea.my_notes()
+            notes = idea_notes.objects.filter(privacy_level__level__gte=5)    
+    else:
+        reader = reader_profile
+        print("This Reader: ", reader)
+        
+        subscription = reader.subscription_level
+        print("Subscription: ", subscription)
+        print("Leve: ", subscription.level, "ID", subscription.id)
+        idea_notes = idea.my_notes()
+        notes = idea_notes.objects.filter(privacy_level__level__gte=subscription.level)
+        
+
+    
+    count = idea.my_notes().count()
+    return render(request, 'notes/idea-notes.html', {'idea': idea, 'idea_notes': notes, 'idea_notes_count': count})
 
 def NoteView(request, slug):
     try:

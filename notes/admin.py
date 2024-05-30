@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Note, IdeaTag, NotePrivacy
+from .models import Note, IdeaTag, NotePrivacy, Reader
 # Register your models here.
 
 
@@ -13,12 +13,20 @@ class IdeaTagAdmin(admin.ModelAdmin):
 @admin.register(Note)
 class NoteAdmin(admin.ModelAdmin):
     list_display = ["slug", "title", "written_at", 'privacy_level']
-    list_filter = ["tags", "written_at"]
+    list_filter = ["tags", "written_at", "privacy_level"]
     search_fields = ["title", "text", ]
 
 
 @admin.register(NotePrivacy)
 class NotePrivacyAdmin(admin.ModelAdmin):
-    list_display = ["name", "level"]
+    list_display = ["id", "name", "level"]
     list_filter = ["level"]
+    search_fields = [ ]
+
+
+
+@admin.register(Reader)
+class ReaderAdmin(admin.ModelAdmin):
+    list_display = ["id", "subscription_level"]
+    list_filter = ["subscription_level"]
     search_fields = [ ]

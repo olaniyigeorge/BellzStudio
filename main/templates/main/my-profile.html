@@ -44,6 +44,13 @@
                     <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.email}}</p>
                 </div>
 
+                {% if user.reader_profile %}
+                <div class="flex flex-col">
+                    <p>Subscription Level</p>
+                    <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.reader_profile.subscription_level}}</p>
+                </div>
+                {% endif %}
+
 
 
                 <div class="w-full flex justify-end ">

@@ -115,35 +115,51 @@ def signUp(request):
         password_confirmation = request.POST['password_confirmation']
 
         # Role
-        reader = request.POST['reader']
+        reader = request.POST['reader'] or "off"
         print("Email:", email)
         print("Password:", password)
         print("Reader:", reader)
 
 
         if password != password_confirmation:
+            print()
             return HttpResponseRedirect(reverse("main:sign-up"))    
         
         try:
             user, created = User.objects.get_or_create(email=email, password=password)
+            print("User: ", user, created)
+    
+            #save user
+            
+            user.save()
             if reader == 'on':
                 reader = Reader.objects.get_or_create(user=user)
+                
 
-        except:
+        except Exception as e:
+            print("Error during creation: ", e)
             return HttpResponseRedirect(reverse("main:sign-up"))
                 
         try:
 
             # Get username and password for authentication
-            email = form.cleaned_data.get('email')
-            raw_password = form.cleaned_data.get('password')
+            email = request.POST['email']
+            raw_password = request.POST['password']
 
             # Log user in with username and raw password
-            user = authenticate(username=email, password=raw_password)
-            login(request, user)
-
+            print("User before auth: ", user)
+            # user = authenticate(request, email=email, password=raw_password)
+            
+            if user:
+                print("logging in...")
+                login(request, user)
+                print("Logged in")
+                return HttpResponseRedirect(reverse("notes:index"))
+        
+            print("Couldn't log authencate user: ", user)
             return HttpResponseRedirect(reverse("main:index"))     
         except Exception as e:
+            print("Error during auth/login: ", e)
             return HttpResponseRedirect(reverse("main:sign-up"))  
         #     return render(request, "main/signup.html", {
         # 'form': form,
@@ -164,13 +180,19 @@ def signIn(request):
     if request.method == "POST":
         email = request.POST['email']
         password = request.POST['password']
-        user = authenticate(request, username=email, password= password)
+        print("Email:", email)
+        print("Password:", password)
+        print("User before auth:", request.user)
+        user = authenticate(request, email=email, password=password)
+        print("User after auth:", user)
         if user:
             login(request, user)
             return HttpResponseRedirect(reverse("notes:index"))
         else:
+            print("User: ", user)
             return render(request, "main/sign-in.html", {
-                'message': "Invalid credientials"
+                'message': "Invalid credientials",
+                'error': f"Error-{user}"
             })
     
     return render(request, "main/sign-in.html")

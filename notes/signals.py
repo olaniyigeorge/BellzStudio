@@ -1,5 +1,7 @@
 from django.db.models.signals import post_save, pre_save
-from .models import IdeaTag, Note
+
+from main.models import User
+from .models import IdeaTag, Note, Reader
 from django.utils.text import slugify 
 import string, random 
 from django.dispatch import receiver 
@@ -67,3 +69,16 @@ def pre_save_receiver(sender, instance, *args, **kwargs):
 def pre_save_receiver(sender, instance, *args, **kwargs): 
    if not instance.slug: 
        instance.slug = unique_tag_slug_generator(instance) 
+
+
+@receiver(post_save, sender=User) 
+def create_reader_profile(sender, instance, created, *args, **kwargs): 
+   if created:
+        try:
+            Reader.objects.create(user=instance)
+            print("Reader Profile created")
+            return 
+        except Exception as e:
+            print(f"Reader profile wasn't created: {e}")
+            return None
+        
