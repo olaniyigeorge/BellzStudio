@@ -17,6 +17,15 @@ from .models import Note, IdeaTag, NotePrivacy, Reader
 def index(request):
     errors = {}
     print("Request user : ", request.user)
+    user= request.user
+
+    if not user.is_authenticated:
+        user_first = ''
+    else:
+        if len(user.first_name) > 1:
+            user_first = user.first_name[0]
+        else:
+            user_first = f"{user}"[0]
     # Date Selector
     week = []
     d = realDate.today()
@@ -39,7 +48,7 @@ def index(request):
             print("No tag: ", e)
             tag_param = None
     
-
+    
     # Fetch notes based n user's network
     # If request user is autheicted
     if not request.user.is_authenticated:
@@ -78,7 +87,7 @@ def index(request):
 
     print(errors)
 
-    return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags, 'errors': errors})
+    return render(request, 'notes/all-notes.html', {'week': week, "user_first": user_first, 'notes': notes, 'tags': tags, 'errors': errors})
 
 def NewNote(request):
     '''
@@ -204,7 +213,7 @@ def IdeaNotes(request, slug):
         
         subscription = reader.subscription_level
         print("Subscription: ", subscription)
-        print("Leve: ", subscription.level, "ID", subscription.id)
+        print("Level: ", subscription.level, "ID", subscription.id)
         idea_notes = idea.my_notes()
         notes = idea_notes.objects.filter(privacy_level__level__gte=subscription.level)
         
@@ -254,12 +263,20 @@ def networks(request):
     
     return render(request, "notes/monitize/join-network.html", {"networks": networks})
 
-def network(request, name):
+def network(request, level):
     networks = NotePrivacy.objects.all()
     try:
-        network = NotePrivacy.objects.get(name=name)
+        network = NotePrivacy.objects.get(level=level)
     except:
         network = None
     
     if network:
         return render(request, "notes/monitize/network.html", {"network": network, "networks": networks})
+
+
+def subscribe(request):
+
+    if request.method == "POST":
+        pass
+    
+    pass

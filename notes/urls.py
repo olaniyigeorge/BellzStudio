@@ -16,8 +16,8 @@ urlpatterns = [
 
     # ----------- NOTE REACH    -------------
     path("n/join-network/", networks, name="join-network"),
-    
-    path("network/<str:name>/", network, name="network"),
+    path("n/subscribe/", subscribe, name="subscribe"),
+    path("network/<int:level>/", network, name="network"),
     
     
 ]

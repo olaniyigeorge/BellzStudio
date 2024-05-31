@@ -20,7 +20,8 @@
                         class="font-bold text-gray-700 "
                         >
                         
-                            {{ntw.name}}
+                            
+                            <a href="{% url 'notes:network' ntw.level %} " class="font-medium text-white   rounded py-1 cursor-pointer px-2"> {{ntw.name}} </a> 
                         
                     </h1>
 
@@ -28,8 +29,14 @@
                         <p class="text-balance"> This means you will have access to read all my note marked <span class="italic font-medium">{{network.name}} </span></p>
                         <p class="text-balance"> By extension, you can also read notes with privacy levels to the this level</span></p>
                     </span>
-                    <a href="{% url 'notes:network' ntw.name %} " class="font-medium text-white bg-green-500 rounded py-1 cursor-pointer px-2"> Join </a> 
                     
+                    <form class="text-gray-800" action="{% url 'notes:subscribe' %}" method="POST">
+                        {% csrf_token %}
+                        
+                        
+                        
+                        <input type="submit" class="w-1/2  hover:bg-purple-700 bg-purple-600 p-1 text-white cursor-pointer rounded" value="Post">
+                    </form>
                 </div>
                 {% endfor %} 
                 

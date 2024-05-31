@@ -40,10 +40,10 @@
             </div>    
             
             <div class="w-full h-full justify-center items-center animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out]  md:w-1/2 md:mb-0 flex justify-center">
-                <div class="w-full min-h-[150px]  md:h-1/2 gap-2   flex  rounded-md">
-                    {% for ntw in networks %}
+                <div class="w-full min-h-[150px]  md:h-1/2 gap-2 justify-center  flex  rounded-md">
+                    <!-- {% for ntw in networks %}
                     <a 
-                        href="{% url 'notes:network' ntw.name %}" > 
+                        href="{% url 'notes:network' ntw.level %}" > 
                         <div class="text-5xl border w-full min-w-[50px] rounded font-bold w-full flex flex-col justify-between hover:bg-purple-100 justify-center h-full">
 
 
@@ -52,12 +52,35 @@
                                 {% else %}
                                     <p class="text-gray-900 text-xs p-2">{{ntw.name}} </p>
                                 {% endif %}
-                                
+                            <p class="text-gray-900 text-xs p-2"> {{ntw.get_subscribers.count}} </p>
                             <p class="text-gray-900 text-xs p-2"> {{ntw.level}} </p>
                         </div>
                     </a>
 
-                {% endfor%}
+                    {% endfor%} -->
+                    <div class="w-2/3 border border-red-500 rounded">
+                        <div class="text-5xl border w-full min-w-[50px] rounded font-bold w-full flex flex-col justify-between hover:bg-purple-100 justify-center h-full">
+
+
+                            {% if network.name == ntw.name %}
+                                <p class="text-purple-600 text-xs p-2">{{network.name}} </p>
+                            {% else %}
+                                <p class="text-gray-900 text-xs p-2">{{network.name}} </p>
+                            {% endif %}
+                            <p class="text-gray-900 text-xs p-2"> {{network.get_subscribers.count}} </p>
+                            <p class="text-gray-900 text-xs p-2"> {{network.level}} </p>
+                             
+                            {% if user.is_authenticated %}
+                                {% if user.reader_profile.subscription_level.level > network %}
+                                    Hi <span class="text-purple-700 "> User{{user.reader_profile.subscription_level.level}} network: {{network}} </span>!
+                                    
+                                {% endif %}
+                                Hi there! You are a member of my 
+                            {% else %}
+                                <span class="text-purple-700 "> Join Us </span>
+                            {% endif %}
+                    </div>
+                    </div>
                 </div>
                 
                 

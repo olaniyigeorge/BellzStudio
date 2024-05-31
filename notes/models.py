@@ -37,6 +37,17 @@ class NotePrivacy(models.Model):
     class Meta:
         ordering = ('level',)
 
+    def get_subscribers(self):
+        try: 
+            subs = Note.objects.filter(privacy_level=self)
+            print(subs)
+            print(self)
+        except Exception as e:
+            print(e)
+            raise e
+        
+        return subs
+
     def __str__(self):
         return f"{self.level}: {self.name}"
 
@@ -45,7 +56,7 @@ class Note(models.Model):
     title = models.CharField(max_length=150)
     text = models.TextField(null=False, blank=False)
     tags = models.ManyToManyField(IdeaTag, related_name='on_notes')
-    privacy_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True)
+    privacy_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True, related_name="subGroup")
     written_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -58,13 +69,13 @@ class Note(models.Model):
         return self.title 
     
 def get_default_subscription_model():
-    return NotePrivacy.objects.get(name="Guests")
+    return NotePrivacy.objects.get(id='5')
 
 class Reader(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=False, related_name='reader_profile')
 
-    subscription_level = models.ForeignKey(NotePrivacy, on_delete=models.SET(get_default_subscription_model), default=get_default_subscription_model )
+    subscription_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True, default='5' )
     
     written_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
