@@ -16,7 +16,7 @@ urlpatterns = [
 
     # ----------- USER MANGEMENT   -------------
     path("profile/me", profile, name="profile"),
-
+    path("profile/update", updateProfile, name="update-profile"),
 
     # ----------- USER AUTHENTICATION   -------------
     path("get-familiar", signUp, name="sign-up"),

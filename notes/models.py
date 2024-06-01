@@ -69,13 +69,13 @@ class Note(models.Model):
         return self.title 
     
 def get_default_subscription_model():
-    return NotePrivacy.objects.get(id='5')
+    return NotePrivacy.objects.get(level='5').id
 
 class Reader(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=False, related_name='reader_profile')
 
-    subscription_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True, default='5' )
+    subscription_level = models.ForeignKey(NotePrivacy, on_delete=models.SET_NULL, null=True, default=get_default_subscription_model )
     
     written_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

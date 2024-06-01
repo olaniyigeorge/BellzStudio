@@ -12,7 +12,7 @@
         
         <div class="bg-slate-50 border text-gray-800  w-full md:h-screen   flex flex-col md:space-x-4 lg:space-x-8 md:flex-row md:justify-between md:items-center px-2 md:px-10 lg:px-20 space-y-2 md:space-y-0 ">
             
-            <div class="w-full  md:flex p-4 mt-8 md:mt-0 gap-2 md:gap-4 items-center rounded-md shadow shadow-lg">
+            <div class="w-full space-y-2 md:space-y-0  md:flex p-4 mt-8 md:mt-0 gap-2 md:gap-4 items-center rounded-md shadow shadow-lg">
                 
                 {% for ntw in networks %}
                 <div class="shadow border p-2 rounded-md flex flex-col w-full justify-between items-center">
@@ -21,7 +21,7 @@
                         >
                         
                             
-                            <a href="{% url 'notes:network' ntw.level %} " class="font-medium text-white   rounded py-1 cursor-pointer px-2"> {{ntw.name}} </a> 
+                            <a href="{% url 'notes:network' ntw.level %} " class="font-medium bg-white border   rounded py-1 cursor-pointer px-2"> {{ntw.name}} </a> 
                         
                     </h1>
 
@@ -33,9 +33,10 @@
                     <form class="text-gray-800" action="{% url 'notes:subscribe' %}" method="POST">
                         {% csrf_token %}
                         
+                        <input type="text" name="network_level" value="{{ntw.level}}" class="hidden">
                         
                         
-                        <input type="submit" class="w-1/2  hover:bg-purple-700 bg-purple-600 p-1 text-white cursor-pointer rounded" value="Post">
+                        <input type="submit" class="w-full  hover:bg-purple-700 bg-purple-600 p-1 text-white cursor-pointer rounded" value="Send request">
                     </form>
                 </div>
                 {% endfor %} 
@@ -47,6 +48,7 @@
         </div>
         <img src="{% static 'images/curlyVectorTop.svg' %}" alt="curlyV" class="absolute top-0 left-0 "/>
         <img src="{% static 'images/curlyVectorBottom.svg' %}" alt="curlV" class=" absolute  -bottom-16 md:-bottom-1 right-0 "/>
+        <a href="/notes" class="absolute top-2 left-2 text-white text-sm"> <- Go back </a>
 
     </body>
 

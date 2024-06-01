@@ -27,6 +27,6 @@ class NotePrivacyAdmin(admin.ModelAdmin):
 
 @admin.register(Reader)
 class ReaderAdmin(admin.ModelAdmin):
-    list_display = ["id", "subscription_level"]
+    list_display = ["id", "user", "subscription_level"]
     list_filter = ["subscription_level"]
     search_fields = [ ]

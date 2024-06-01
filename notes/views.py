@@ -3,8 +3,8 @@ from django.shortcuts import render
 from datetime import timedelta, datetime
 from datetime import date as realDate
 import time
-import uuid 
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from notes.forms import NoteForm
 from .models import Note, IdeaTag, NotePrivacy, Reader
@@ -52,7 +52,7 @@ def index(request):
     # Fetch notes based n user's network
     # If request user is autheicted
     if not request.user.is_authenticated:
-        notes = Note.objects.filter(privacy_level__gte= 4)
+        notes = Note.objects.filter(privacy_level__level__gte=5)
         return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags, 'errors': errors})
 
 
@@ -193,6 +193,7 @@ def IdeaNotes(request, slug):
     except:
         idea = IdeaTag.objects.none()
     
+
     # Get auth'd user reader profile
     try:
         reader_profile = Reader.objects.get(user=request.user)
@@ -201,12 +202,12 @@ def IdeaNotes(request, slug):
         print(e)
         reader_profile = None
     if reader_profile == None:
-        print(f"{request.user} is auth bu no reader profile assuming the" )
+        print(f"{request.user} is has no reader profile " )
         if request.user.is_staff:
             notes = Note.objects.all()
         else:
             idea_notes = idea.my_notes()
-            notes = idea_notes.objects.filter(privacy_level__level__gte=5)    
+            notes = idea_notes.filter(privacy_level__level__gte=5)    
     else:
         reader = reader_profile
         print("This Reader: ", reader)
@@ -215,8 +216,7 @@ def IdeaNotes(request, slug):
         print("Subscription: ", subscription)
         print("Level: ", subscription.level, "ID", subscription.id)
         idea_notes = idea.my_notes()
-        notes = idea_notes.objects.filter(privacy_level__level__gte=subscription.level)
-        
+        notes = idea_notes.filter(privacy_level__level__gte=subscription.level )
 
     
     count = idea.my_notes().count()
@@ -249,6 +249,33 @@ def Search(request):
 
     print(idea_results)
 
+    note_result_pks = [n.pk for n in note_results]
+
+    note_results = Note.objects.filter(pk__in=note_result_pks) 
+
+    # Get auth'd user reader profile
+    try:
+        reader_profile = Reader.objects.get(user=request.user)
+    except Exception as e:
+        # Couldn't get reader profile
+        print(e)
+        reader_profile = None
+    if reader_profile == None:
+        print(f"{request.user} is has no reader profile " )
+        if request.user.is_staff:
+            pass
+        else:
+            note_results = note_results.filter(privacy_level__level__gte=5)    
+    else:
+        reader = reader_profile
+        print("This Reader: ", reader)
+        
+        subscription = reader.subscription_level
+        print("Subscription: ", subscription)
+        print("Level: ", subscription.level, "ID", subscription.id)
+        note_results = note_results.filter(privacy_level__level__gte=subscription.level )
+
+
     return render(request, "notes/search.html", {
 
         "note_results": note_results,
@@ -273,10 +300,14 @@ def network(request, level):
     if network:
         return render(request, "notes/monitize/network.html", {"network": network, "networks": networks})
 
-
+@login_required(login_url="/sign-in")
 def subscribe(request):
 
     if request.method == "POST":
-        pass
+        requested_level = request.POST['network_level']
+
+        print(f"\n I want to join level { requested_level } \n")
+
+        return HttpResponseRedirect(reverse("notes:join-network"))
     
     pass

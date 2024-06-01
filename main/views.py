@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.contrib.auth.decorators import login_required
 from notes.models import Reader
 from .models import User
 from django.contrib.auth import authenticate, login, logout
@@ -66,8 +66,6 @@ def contactType(request, destination):
     return render(request, "main/contact-des.html", {'destination': destination, 'info': contacts[destination]})
 
 
-
-
 # USER MANGEMENT
 
 
@@ -80,7 +78,33 @@ def profile(request):
     
     return render(request, 'main/my-profile.html', {"user": user})
 
+@login_required(login_url='/sign-in')
+def updateProfile(request):
+    user = request.user
+    if not user.is_authenticated:
+        user = None
+        return render(request, 'main/my-profile.html', {"user": user})
+    
+    if request.method == "POST":
+        print(request.POST)
+        user = User.objects.get(id=user.id)
+        print(user)
+        if len(request.POST["first_name"]) > 0:
+            user.first_name = str(request.POST["first_name"])
+            print(request.POST["first_name"])
+            user.save()
+        if len(request.POST["last_name"]) > 0:
+            user.last_name = str(request.POST["last_name"])
+            print(request.POST["last_name"])
+            user.save()
+        user = User.objects.get(id=user.id)
 
+        update = False
+        return HttpResponseRedirect(reverse("main:profile"))
+        #return render(request, 'main/my-profile.html', {"user": user, "update": update})
+    
+    update = True
+    return render(request, 'main/my-profile.html', {"user": user, "update": update})
 
 
 # NETWORK
@@ -94,7 +118,6 @@ def newtork(request):
         #user_profile = Profile.objects.get(user=user)
     
     return render(request, 'main/my-profile.html', {"user": user})
-
 
 
 def signUp(request):
@@ -171,8 +194,6 @@ def signUp(request):
 
     return render(request, 'main/sign-up.html', {"form": form})
 
-
-
 def signIn(request):
 
 
@@ -191,13 +212,10 @@ def signIn(request):
         else:
             print("User: ", user)
             return render(request, "main/sign-in.html", {
-                'message': "Invalid credientials",
                 'error': f"Error-{user}"
             })
     
     return render(request, "main/sign-in.html")
-
-
 
 def signOut(request):
     user = request.user

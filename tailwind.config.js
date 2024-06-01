@@ -9,10 +9,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        
         bellzpurple: '#700CFC',
         "mindcream": "#FFFFDB",
         "mindpurple": "#700170",
         "mindtextmetal": "#121212"
+      },
+      gridTemplateColumns: {
+          'custom-5': 'repeat(5, 40px) '
       },
       screens: {
         // 'xs': '320px',    // Extra small devices (phones)
@@ -23,6 +27,11 @@ module.exports = {
         'xxl': '1204px',  // 2x Extra large devices
       },
       keyframes: {
+        fadeIn: {
+          '0%': {opacity: '0'},
+          '100%': {opacity: '1'},
+          
+        },
         wiggle: {
           '0%, 100%': {transform: 'rotate(-5deg)'},
           '50%': {transform: 'rotate(5deg)'},
@@ -51,6 +60,7 @@ module.exports = {
         }
       },
       animation: {
+        fadeIn: 'fadeIn 1.5s ease-in',
         wiggle: 'wiggle 1s ease-in infinite',
         swivvle: 'swivvle 1.5s ease-in-out infinite',
         slideRtL: 'slideRtL 1s ease-in-out ',
