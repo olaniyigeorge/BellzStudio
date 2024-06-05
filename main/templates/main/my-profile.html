@@ -101,7 +101,10 @@
         </div>
         <img src="{% static 'images/curlyVectorTop.svg' %}" alt="curlyV" class="absolute top-0 left-0 "/>
         <img src="{% static 'images/curlyVectorBottom.svg' %}" alt="curlV" class=" absolute  -bottom-16 md:-bottom-1 right-0 "/>
-        <a href="/" class="absolute top-2 left-2 text-white text-sm"> <- Go home </a>
+        <a href="/" class="absolute  top-2 left-2 text-white text-sm space-x-2 flex items-center "> 
+            <img src="{% static 'images/arrow-circle-left-white.svg' %}" alt="go back" class="w-7 h-7 text-white hover:animate-swivvle" >
+            <p> Go home </p>
+        </a>
     </body>
 
 </html>

@@ -38,8 +38,8 @@ module.exports = {
           
         },
         swivvle: {
-          '0%, 100%': {transform: 'translateX(-2%)'},
-          '50%': {transform: 'translate(2%)'},
+          '0%, 100%': {transform: 'translateX(-10%)'},
+          '50%': {transform: 'translate(10%)'},
           
         },
         slideRtL: {

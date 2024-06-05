@@ -18,7 +18,7 @@
             <div class="">
                 <span class="flex items-center ">
                     <a class="font-bold p-2" href="/">
-                        <-
+                        <img src="{% static 'images/arrow-circle-left-black.svg' %}" alt="go back" class="w-7 h-7 hover:animate-swivvle" >
                     </a>
                     <h1 class="text-5xl text-purple-600 font-bold ">
                         <a href="/notes">Notes</a>
@@ -31,7 +31,7 @@
 
             <div class="flex justify-center items-center space-x-1">
                 {% if user.is_authenticated %}
-                    <span class="rounded-full bg-purple-600 border-2 p-2 text-white"><a href="{% url 'main:profile' %}" class=" flex w-5 h-5 justify-center  items-center font-bold"> {{user_first}}</a></span>
+                    <span class="rounded-full bg-purple-600 border-2 p-2 text-white"><a href="{% url 'main:profile' %}" class=" flex w-7 h-7 md:w-5 md:h-5 justify-center  items-center font-bold"> {{user_first}}</a></span>
                     {% else %}
                     <span class="rounded-md bg-white border-2 py-2 px-1 sm:p-2 text-xs sm:text-md text-gray-800"><a href="{% url 'notes:join-network' %}" class=" flex justify-center items-center font-medium"> Read my notes </a></span> 
                 {% endif %}
