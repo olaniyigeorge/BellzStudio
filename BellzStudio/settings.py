@@ -26,7 +26,7 @@ import dj_database_url
 SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9dzh"
 
 # Deployment Environment  --- "STAGE" | "DEV"   -----  DEBUG is True for both
-ENVT = "DEV"
+ENVT = "STAGE"
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
