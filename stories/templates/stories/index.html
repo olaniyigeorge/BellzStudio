@@ -6,20 +6,49 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        {% block head %}
+                
+    
+        {% endblock %}
+        
     </head>
 
-    <body class="bg-slate-50">
-        <div class="flex flex-col flex-1">
-            <h1 class="text-7xl text-purple-600 border p-8 font-bold ">
-                <a href="/">Developer Stories</a>
-            </h1>
+        <body class="bg-slate-50 w-full">
+            <div class="p-2 md:p-3 w-full flex justify-between items-center space-y-3 border-b"> 
+                <div class="w-full space-x-2 flex flex-col justify-start">
+                    <span class="flex items-center">
+                        <a class="font-bold " href="/">
+                            <img src="{% static 'images/arrow-circle-left-black.svg' %}" alt="go back" class="w-7 h-7 hover:animate-swivvle" >
+                        </a>
+                        <div class="">   
+                            <h1 ><a href="{% url 'stories:stories_index' %}" class="text-3xl text-purple-600 font-bold ">Developer Stories</a> </h1>
+                            <p class="text-sm md:text-md">BTS of our products</p>
+                        </div> 
+                    </span>
+                    
 
-            <div class="w-full p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-row gap-3 font-medium text-gray-900">
-                <a href="{% url 'stories:dc_Index' %}" class="p-5 hover:bg-slate-100 border border-slate-200 rounded">
-                    DemoCraty
-                </a>
+                    
+                </div>
 
+
+
+                
             </div>
+
+
+        <div class=" p-3 md:px-20">    
+            {% block stories %}
+                
+    
+            {% endblock %}
         </div>
+
+        
     </body>
 </html>
+
+
+
+
+
+

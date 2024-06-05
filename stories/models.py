@@ -5,7 +5,14 @@ from django.utils import timezone
 import uuid
 from main.models import User
 
+#  ------------ Story ------------
 
+class Story(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4())
+    content = models.FileField(upload_to="static/story", null=True, blank=True)
+
+    child = models.OneToOneField('self', null=True, blank=True, on_delete=models.SET_NULL)
 
 #  ------------ DemoCraty ------------
 

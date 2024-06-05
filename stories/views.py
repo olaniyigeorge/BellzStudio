@@ -5,15 +5,19 @@ import datetime
 
 from django.urls import reverse
 from .inspo import demo_craty_inspirations
-from .models import Election, Party, Voter, Vote
+from .models import Election, Party, Story, Voter, Vote
 from notes.models import IdeaTag
 
 
 def index(request):
+    user = request.user
+
+    stories = Story.objects.all()
 
 
 
-    return render(request, "stories/index.html", {})
+
+    return render(request, "stories/dev-stories.html", {"user": user, "stories": stories})
 
 
 
