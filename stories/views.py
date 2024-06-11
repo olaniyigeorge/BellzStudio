@@ -1,7 +1,11 @@
-import uuid
+import os
+import uu
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import datetime
+import markdown
+
+from BellzStudio.settings import BASE_DIR
 
 from django.urls import reverse
 from .inspo import demo_craty_inspirations
@@ -9,16 +13,46 @@ from .models import Election, Party, Story, Voter, Vote
 from notes.models import IdeaTag
 
 
+from django.core.files.storage import default_storage
+
 def index(request):
     user = request.user
 
     stories = Story.objects.all()
+    return render(
+                    request, 
+                    "stories/dev-stories.html", 
+                    {
+                        "user": user, 
+                        "stories": stories
+                    }
+                )
 
+def story(request, id):
+    print("Story id: ", id)
+    story = Story.objects.get(id=id)
+    print(story)
+    mdentry =  story.content.url #util.get_entry(title)
+    
+    try:
+        # f = f"{BASE_DIR}{story.content.url}"
 
-
-
-    return render(request, "stories/dev-stories.html", {"user": user, "stories": stories})
-
+        f = default_storage.open(f"{BASE_DIR}{story.content.url}")
+        print("F: ", f)
+        #f = default_storage.open(story.content.url)
+        c = f.read().decode("utf-8")
+        md = markdown.Markdown(extensions=["fenced_code"])
+        cc=  markdown.markdown(c)
+        cc = md.convert(story.content)
+        print("CC: ", cc)
+        print("C: ", c)
+    except Exception as e:
+        print("File not found: ", e)
+    
+    print(f"Content: ", mdentry)
+    converted_content = markdown.markdown(mdentry)
+    print(f"Converted entry: ", c)
+    return render(request, "stories/story.html", {"story": story, "content": cc})
 
 
 def DemoCratyIndex(request):
@@ -30,7 +64,6 @@ def DemoCratyDemo(request):
     elections = Election.objects.all()
 
     return render(request, "stories/dc_home.html", {'elections': elections})
-
 
 def ElectionDetails(request, id):
     user = request.user
@@ -102,9 +135,6 @@ def ElectionDetails(request, id):
 
                 } 
                 )
-
-
-
 
 def ElectionRegistration(request, id):
     
