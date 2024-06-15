@@ -23,7 +23,7 @@ import dj_database_url
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9dzh"
+SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9d zh"
 
 # Deployment Environment  --- "STAGE" | "DEV"   -----  DEBUG is True for both
 ENVT = "STAGE"
