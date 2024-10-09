@@ -5,12 +5,17 @@ from datetime import date as realDate
 import time
 import uuid 
 from django.urls import reverse
+from requests import Response
+from notes.serializers import IdeaTagSerializer
+from notes.paginations import StandardResultsSetPagination
+from notes.serializers import NoteSerializer
 
 from notes.forms import NoteForm
 from .models import Note, IdeaTag
 # Create your views here.
 
-
+from rest_framework import generics
+from rest_framework.renderers import TemplateHTMLRenderer
 
 
 
@@ -48,9 +53,29 @@ def index(request):
     tags = IdeaTag.objects.all()
 
 
-
+    print("Notes: ", notes)
 
     return render(request, 'notes/all-notes.html', {'week': week, 'notes': notes, 'tags': tags})
+
+class Notes(generics.RetrieveAPIView):
+    """
+    A view that returns a templated HTML representation of a given user.
+    """
+    queryset = Note.objects.all()
+    renderer_classes = [TemplateHTMLRenderer]
+
+    def get(self, request, *args, **kwargs):
+                # Date Selector
+        week = []
+        d = realDate.today()
+        for x in range(-3, 4):
+            week.append(d + timedelta(days=x))
+
+        tags = IdeaTag.objects.all()
+        posts = Note.objects.all()
+
+        return Response({'week': week, 'notes': posts, 'tags': tags}, template_name='notes/all-notes.html')
+
 
 
 def NewNote(request):
@@ -164,3 +189,10 @@ def IdeaNotes(request, id):
     return render(request, 'notes/idea-notes.html', {'idea': idea, 'idea_notes': idea_notes})
 
 
+#    API ---------
+class ApiV1Home(generics.ListAPIView):
+    queryset = Note.objects.all().order_by("written_at")
+    serializer_class = NoteSerializer
+    permission_classes = []
+    pagination_class = StandardResultsSetPagination
+    search_fields = ['title']

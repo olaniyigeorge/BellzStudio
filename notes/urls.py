@@ -10,4 +10,7 @@ urlpatterns = [
     # path("<uuid:noteID>/", Note, name="note"),
     path("<str:date>/", NoteDate, name="notes-by-date"),
     path("idea-tags/<uuid:id>/", IdeaNotes, name="notes-by-idea"),
+
+    # ------ API  ------
+    path("v1", ApiV1Home.as_view(), name="api_home"),
 ]

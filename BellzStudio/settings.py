@@ -46,6 +46,11 @@ INSTALLED_APPS = [
     "stories",
     "notes",
 
+
+    # Third party apps
+    # 'corsheaders',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -151,3 +156,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AUTH_USER_MODEL  = "main.User"
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+
+}
