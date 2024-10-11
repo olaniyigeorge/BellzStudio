@@ -22,7 +22,7 @@
       },
       {
         "src": "/(.*)",
-        "dest": "<projectname>/wsgi.py"
+        "dest": "BellzStudio/wsgi.py"
       }
     ],
     "outputDirectory": "ui/staticfiles"
