@@ -25,7 +25,14 @@ SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9dzh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://bellzstudio.onrender.com/", "bellzstudio.onrender.com", "localhost"]
+ALLOWED_HOSTS = [
+    "https://bellzstudio.onrender.com/", 
+    "bellzstudio.onrender.com", 
+    "localhost",
+    ".vercel.app",
+    ".now.sh",
+    "127.0.0.1"
+    ]
 
 
 # Application definition
@@ -99,10 +106,21 @@ WSGI_APPLICATION = "BellzStudio.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'bellzstudio',
+        'USER': 'bellz',
+        'PASSWORD': '@BellzStudio19',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -143,8 +161,11 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+if not DEBUG:
+    STATICFILES_DIRS= os.path.join(BASE_DIR, 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 
