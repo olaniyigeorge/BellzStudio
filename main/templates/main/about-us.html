@@ -9,11 +9,49 @@
     </head>
 
     <body class="bg-slate-50">
-        <div class=" w-full flex flex-col md:justify-between md:items-center px-2 md:px-20 h-full">
-            <div class="w-full p-4  md:space-x-4 ">
-                <div class=" space-y-1">
-                    <h2 class="font-extrabold text-purple-600 text-5xl md:text-7xl">
-                        <a href="/" class="w-full text-start ">About Us</a> 
+        <div class=" w-full relative">
+            <div class="w-full p-2 flex top-0 items-center fixed z-20 bg-purple-700  font-medium">
+                    <a href="/" class="pl-4 font-extrabold text-2xl text-white">Bellz</a>
+                    <div id="header-nav"  class="flex flex-1 justify-center items-center">
+                        <section id="mobile-menu" class="">
+
+                        </section>
+                        <section id="hr-nav" class="hidden text-white 500  space-x-5 ml-30 md:flex w-1/2 justify-between ">
+                            <a 
+                                href="/about-us" 
+                                class="hover:underline transition-all  duration-1000"
+                            > 
+                                About 
+                            </a>
+
+                            <a 
+                                href="/notes" 
+                                class="hover:underline transition-all  duration-1000"
+                            > 
+                                Notes 
+                            </a>
+
+                            <a 
+                                href="/dev-stories" 
+                                class="hover:underline transition-all  duration-1000"
+                            > 
+                                Stories
+                            </a>
+
+                            <a 
+                                href="/contact" 
+                                class="hover:underline transition-all  duration-1000"
+                            > 
+                                Contact 
+                            </a>
+                        </section>
+                    </div>    
+            </div> 
+            
+            <div class="w-full p-4 mt-16  ">
+                <div class="space-y-1">
+                    <h2 class="font-extrabold w-full text-start  text-purple-600 text-5xl md:text-7xl">
+                        About Us 
                     </h1>
                     <p class="italic "> Building micro services & products we believe should exist  </p>
 
@@ -26,8 +64,8 @@
                 
 
                 <div class=" space-y-1 mt-10 md:mt-0">
-                    <h2 class="font-extrabold text-purple-600 text-5xl md:text-7xl">
-                        <a href="/" class="w-full text-start ">Our Mission</a> 
+                    <h2 class="font-extrabold w-full text-start text-purple-600 text-5xl md:text-7xl">
+                        Our Mission
                     </h1>
                     <p class="italic "> Building micro services & products we believe should exist  </p>
 
@@ -40,14 +78,8 @@
                     </p>
     
                 </div>
-            </div>  
-            
-
-
-
-        
-        
-        </div>
+            </div>          
+    </div>
         
     </body>
 

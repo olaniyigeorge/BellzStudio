@@ -6,25 +6,47 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        {% block head %}
+                
+    
+        {% endblock %}
+        
     </head>
 
-    <body class="bg-slate-50">
-        <div class="p-2 md:p-4 flex justify-between items-center space-y-3 border-b"> 
+    <body class="bg-slate-50 w-full">
+        <div class="p-2 md:p-3 w-full flex justify-between items-center space-y-3 border-b"> 
             <div class="">
-                <h1 class="text-5xl text-purple-600 font-bold ">
-                    <a href="/">Notes</a>
-                </h1>
+                <span class="flex items-center ">
+                    <a class="font-bold p-2" href="/">
+                        <img src="{% static 'images/arrow-circle-left-black.svg' %}" alt="go back" class="w-7 h-7 hover:animate-swivvle" >
+                    </a>
+                    <h1 class="text-5xl text-purple-600 font-bold ">
+                        <a href="/notes">Notes</a>
+                    </h1>
+                </span>
+                
 
-                <p> How I deal with my wandering thoughts</p>
+                <p class="text-sm md:text-md"> How I deal with my wandering thoughts</p>
             </div>
 
-            <button class="text-white bg-purple-600 p-2 rounded-md">
-                <a href="{% url 'notes:write-note' %}"> Write</a>
-            </button>
+            <div class="flex justify-center items-center space-x-1">
+                {% if user.is_authenticated %}
+                    <span class="rounded-full bg-purple-600 border-2 p-2 text-white"><a href="{% url 'main:profile' %}" class=" flex w-7 h-7 md:w-5 md:h-5 justify-center  items-center font-bold"> {{user_first}}</a></span>
+                    {% else %}
+                    <span class="rounded-md bg-white border-2 py-2 px-1 sm:p-2 text-xs sm:text-md text-gray-800"><a href="{% url 'notes:join-network' %}" class=" flex justify-center items-center font-medium"> Read my notes </a></span> 
+                {% endif %}
+                
+                <a href="{% url 'notes:write-note' %}" class="text-white relative bg-purple-600 p-2 rounded-md">
+                    Write
+   
+               </a>
+            </div>
+
+            
         </div>
     
-        <div class="w-full">
-            <div 
+        <div class="w-full space-y-1 py-1">
+            <!-- <div 
                 id="date-selector" 
                 class=" text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">
                 
@@ -38,37 +60,55 @@
                             </a>
                         </button>
                     {% endfor %}
-            </div>
+            </div> -->
 
-            <div 
-                id="tag-selector" 
-                class="text-gray-700 flex justify-center items-center space-x-1 md:space-x-5  p-1">        
-                
-                {% for tag in tags %}
-                    <a 
-                        href="{% url 'notes:notes-by-idea' tag.id %}" 
-                        class="text-xs md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold focus:bg-purple-100 focus:font-bold rounded-md transition-colors ease-in-out ">  
+            <div class="w-full flex flex-col space-y-1 items-center">
+                <div 
+                    id="tag-selector" 
+                    class="w-full text-gray-700   flex flex-wrap gap-2 items-center justify-center md:gap-5 w-full">        
                         
-                        {{tag.name}} 
-                    </a>
+                        {% for tag in tags %}
+                            <a 
+                                href="{% url 'notes:notes-by-idea' tag.slug %}" 
+                                class="text-xs flex justify-center items-center md:text-sm lg:text-md border p-1 md:p-2 hover:font-bold hover:bg-purple-100  rounded-md transition-all ease-in-out ">  
+                                
+                                {{tag.name}} 
+                            </a>
+                            
+                        {% endfor %}
+                
+                </div>
+                {% if 'invalid_idea_format' in errors.keys %}
+                    <p class="text-red-400 text-sm  animate-pulse"> {{errors.invalid_idea_format}}</p>
+                {% endif %}
+
+                <span class="text-sm">
+                    <form method="POST" action="{% url 'notes:new-idea' %}">
+                        {% csrf_token %}
+                        <input class="p-1 focus:border  {% if 'invalid_idea_format' in errors.keys %} border border-red-500 {% endif%} rounded focus:border-purple-500  focus:ring-0 focus:outline-none" type="text" placeholder="New Idea Tag?" name="idea_name">
+                        <input type="submit" value="Save Idea" class="bg-white p-1 text-gray-600 rounded border border-purple-500 hover:text-white hover:bg-purple-700">
+                    </form>
                     
-                {% endfor %}
-            
+                </span>
+                
             </div>
 
-    
-    
-    
-            <div class="border p-3">    
-                {% block notes %}
-                    
-        
-                {% endblock %}
-            </div>
-        
+            <span class="w-full flex justify-center text-sm">
+                <form class="w-4/5 md:w-1/2 relative border bg-white rounded p-1" method="GET" action="{% url 'notes:search' %}">
+                    <input class="p-1 w-full border border-white rounded focus:border-purple-200  focus:ring-0 focus:outline-none" type="text" placeholder="Search notes and ideas" name="query">
+                    <input type="submit" value="Search" class="absolute right-1 top-1 bg-purple-700 p-1 text-white rounded border border-purple-500 hover:text-white hover:bg-purple-700">
+                </form>
+                
+            </span>
 
         </div>
 
+        <div class=" p-3 md:px-20">    
+            {% block notes %}
+                
+    
+            {% endblock %}
+        </div>
 
         
     </body>

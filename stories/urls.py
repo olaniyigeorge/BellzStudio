@@ -6,6 +6,7 @@ app_name = "stories"
 
 urlpatterns = [
     path("", index, name="stories_index"),
+    path("story/<uuid:id>", story, name="story"),
 
     # ------ DemoCraty ------
     path("dc/", DemoCratyIndex, name="dc_Index"),

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        <title> BellzStudio </title>
+    </head>
+
+    <body class="relative w-full h-full">
+        
+        <div class="bg-slate-50 text-gray-800  w-full md:h-screen   flex flex-col md:space-x-4 lg:space-x-8 md:flex-row md:justify-between md:items-center px-2 md:px-20 lg:px-40 space-y-2 md:space-y-0 ">
+            
+            <div class="w-full  p-4 md:w-1/2 mt-8 md:mt-0 space-y-3">
+                <div class="mt-4">
+                    <h1 
+                        class="font-bold text-gray-700 text-xl md:text-3xl"
+                        >
+                        {% if user.first_name %}
+                            Hi <span class="text-purple-700"> {{user.first_name}}</span>! Welcome to
+                        {% else %}
+                            Hi there! This is
+                        {% endif %} 
+                    </h1>
+                    <h2 class="font-extrabold text-purple-600 text-7xl">
+                        <p class="w-full text-start ">About Me </p> 
+                    </h1>
+                </div>
+                
+                <form action="{% url 'main:update-profile' %}" method="post" class="w-full space-y-2">
+                    {% csrf_token %}
+                    <div class="flex flex-col">
+                        <p>Firstname</p>
+                        {% if update %}
+                            <input type="text" name="first_name" placeholder="{{user.first_name}}" class="ring-0 border-0 outline-none p-2 ring-0 rounded-md bg-white font-medium text-lg text-purple-600">
+                        {% else %}
+                            <p class="p-2  rounded-md bg-white font-medium text-lg text-purple-600">{{user.first_name}}</p>
+                        {% endif %}
+                        
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p>Lastname</p>
+                        {% if update %}
+                            <input type="text" name="last_name" placeholder="{{user.last_name}}" class="ring-0 border-0 outline-none p-2 ring-0 p-2 ring-0 rounded-md bg-white font-medium text-lg text-purple-600">
+                        {% else %}
+                            <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.last_name}}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p>Email</p>
+                        <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.email}}</p>
+                    </div>
+
+                    {% if user.reader_profile %}
+                        <div class="flex flex-col">
+                            <span class="w-full flex justify-between items-center ">
+                                <p>Subscription Level</p> 
+                                <a href="{% url 'notes:join-network' %}" class="italic text-purple-600 underline text-sm"> Know me better </a>
+                            </span>
+                            <p class="p-2 rounded-md bg-white font-medium text-lg text-purple-600">{{user.reader_profile.subscription_level}}</p>
+                        </div>
+                    {% endif %}
+
+
+                    {% if update %}
+                        <div class="w-full flex justify-end ">
+                            <input type="submit" value="Update" class="p-2 border rounded-md bg-green-600 text-white cursor-pointer"> 
+                        </div>
+                        {% else %}
+                        <div class="w-full flex">
+                            <div class="w-full flex  ">
+                                <a href="{% url 'main:update-profile' %}" class="p-2 border rounded-md font-medium text-gray-800"> Update </a>
+                            </div>
+                            <div class="w-full flex justify-end ">
+                                <a href="{% url 'main:sign-out' %}" class="p-2 border rounded-md bg-red-500 text-white"> Log out</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+
+                </form>
+            
+            </div>    
+            
+            <div class="w-full  md:flex-1 mb-5 md:mb-0 flex justify-center">
+                <a 
+                    href="/" 
+                    class="text-5xl  animate-slideBtT md:animate-[slideRtL_1.5s_ease-in-out] font-bold w-full flex justify-center h-auto"
+                > 
+                
+                    <img src="{% static 'images/memoji.png' %}" class="  border-4 border-purple-600 w-full h-auto rounded-full"/>
+
+                </a>
+                
+            </div>
+            
+            
+        </div>
+        <img src="{% static 'images/curlyVectorTop.svg' %}" alt="curlyV" class="absolute top-0 left-0 "/>
+        <img src="{% static 'images/curlyVectorBottom.svg' %}" alt="curlV" class=" absolute  -bottom-16 md:-bottom-1 right-0 "/>
+        <a href="/" class="absolute  top-2 left-2 text-white text-sm space-x-2 flex items-center "> 
+            <img src="{% static 'images/arrow-circle-left-white.svg' %}" alt="go back" class="w-7 h-7 text-white hover:animate-swivvle" >
+            <p> Go home </p>
+        </a>
+    </body>
+
+</html>

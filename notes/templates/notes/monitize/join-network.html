@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="{% static 'styles/output.css' %}">
+        <title> BellzStudio </title>
+    </head>
+
+    <body class="relative w-full h-full">
+        
+        <div class="bg-slate-50 border text-gray-800  w-full md:h-screen   flex flex-col md:space-x-4 lg:space-x-8 md:flex-row md:justify-between md:items-center px-2 md:px-10 lg:px-20 space-y-2 md:space-y-0 ">
+            
+            <div class="w-full space-y-2 md:space-y-0  md:flex p-4 mt-8 md:mt-0 gap-2 md:gap-4 items-center rounded-md shadow shadow-lg">
+                
+                {% for ntw in networks %}
+                <div class="shadow border p-2 rounded-md flex flex-col w-full justify-between items-center">
+                    <h1 
+                        class="font-bold text-gray-700 "
+                        >
+                        
+                            
+                            <a href="{% url 'notes:network' ntw.level %} " class="font-medium bg-white border   rounded py-1 cursor-pointer px-2"> {{ntw.name}} </a> 
+                        
+                    </h1>
+
+                    <span class="">
+                        <p class="text-balance"> This means you will have access to read all my note marked <span class="italic font-medium">{{network.name}} </span></p>
+                        <p class="text-balance"> By extension, you can also read notes with privacy levels to the this level</span></p>
+                    </span>
+                    
+                    <form class="text-gray-800" action="{% url 'notes:subscribe' %}" method="POST">
+                        {% csrf_token %}
+                        
+                        <input type="text" name="network_level" value="{{ntw.level}}" class="hidden">
+                        
+                        
+                        <input type="submit" class="w-full  hover:bg-purple-700 bg-purple-600 p-1 text-white cursor-pointer rounded" value="Send request">
+                    </form>
+                </div>
+                {% endfor %} 
+                
+
+            </div>    
+            
+            
+        </div>
+        <img src="{% static 'images/curlyVectorTop.svg' %}" alt="curlyV" class="absolute top-0 left-0 "/>
+        <img src="{% static 'images/curlyVectorBottom.svg' %}" alt="curlV" class=" absolute  -bottom-16 md:-bottom-1 right-0 "/>
+        <a href="/" class="absolute  top-2 left-2 text-white text-sm space-x-2 flex items-center "> 
+            <img src="{% static 'images/arrow-circle-left-white.svg' %}" alt="go back" class="w-7 h-7 text-white hover:animate-swivvle" >
+            <p> Go home </p>
+        </a>
+    </body>
+
+</html>

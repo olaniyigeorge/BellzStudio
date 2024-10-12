@@ -1,0 +1,33 @@
+{% extends 'stories/index.html' %}
+
+
+
+{% block head %}
+    <title> Stories </title>        
+    
+{% endblock %}
+
+
+
+
+{% block stories %}
+    <div id="stories-container" class="space-y-2 font-sans">
+        {% for story in stories %}
+            <div class="p-2 bg-opacity-30 animate-slideBtT bg-white border border-purple-100 rounded-md hover:scale-[101%] transition duration-300 shadow-sm shadow-purple-200">
+                <div class="">
+                    <div class="w-full flex justify-between items-center">
+                        <a href="{% url 'stories:story' story.id %} " >
+                            <h1 class="font-bold text-gray-900 capitalize text-xl">
+                                {{story.id}}
+                            </h1>
+                        </a>
+                    </div>
+                    
+                    <p class="line-clamp-3 text-pretty text-sm md:text-md">
+                        {{story.content}}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

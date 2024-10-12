@@ -14,13 +14,20 @@ from pathlib import Path
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+from dotenv import load_dotenv # type: ignore
+load_dotenv()
+import dj_database_url # type: ignore
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9dzh"
+SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9d zh"
+
+# Deployment Environment  --- "STAGE" | "DEV"   -----  DEBUG is True for both
+ENVT = "DEV"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -106,12 +113,17 @@ WSGI_APPLICATION = "BellzStudio.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+
+if ENVT == "DEV":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+        }
+elif ENVT == "STAGE":
+    database_url = os.environ.get("DATABASE_URL")
+    DATABASES = {'default': dj_database_url.parse(database_url)}
 
 # DATABASES = {
 #     'default': {
@@ -149,7 +161,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Africa/Lagos'
 
 USE_I18N = True
 
@@ -159,16 +171,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [BASE_DIR / "static"]
-
-# if not DEBUG:
-STATICFILES_DIRS= os.path.join(BASE_DIR, 'static'),
-STATIC_URL = '/static/' 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+# # if not DEBUG:
+# STATICFILES_DIRS= os.path.join(BASE_DIR, 'static'),
+# STATIC_URL = '/static/' 
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 
+if ENVT == "DEV":
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = [BASE_DIR / "static"]
+elif ENVT == "STAGE":
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
