@@ -15,20 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
-from django.urls import path, include
+from django.contrib import admin # type: ignore
+from django.urls import path, include # type: ignore
 from BellzStudio import settings
-from django.conf.urls.static import static
+
+from django.conf.urls.static import static # type: ignore
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('main.urls')),
     path("dev-stories/", include('stories.urls')),
     path("notes/", include('notes.urls')),
-]
 
+    
+] + static(settings.STATIC_URL)
+# + static(settings.STATIC_URL)
 
-if settings.ENVT == "DEV":
-    urlpatterns += static(settings.STATIC_URL)
-elif settings.ENVT == "STAGE":
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_URL)

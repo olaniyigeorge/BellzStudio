@@ -17,6 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv # type: ignore
 load_dotenv()
 import dj_database_url # type: ignore
+from celery.schedules import crontab
 
 
 # Quick-start development settings - unsuitable for production
@@ -64,6 +65,7 @@ INSTALLED_APPS = [
     # Third party apps
     # 'corsheaders',
     'rest_framework',
+    'django_celery_beat',
 
 ]
 
@@ -200,4 +202,29 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
 
+}
+
+# Celery Configuration Options
+CELERY_BROKER_URL = 'redis://localhost:6379/0'  # Ensure Redis is running locally
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+
+
+# Optional: To suppress the deprecation warning
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+
+
+
+CELERY_BEAT_SCHEDULE = {
+    'send-promotional-emails-every-monday-830am': {
+        'task': 'notes.tasks.send_promotional_emails',
+        'schedule': crontab(hour=8, minute=30, day_of_week=1),  # Monday is 1
+    },
 }
