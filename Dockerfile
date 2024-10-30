@@ -22,12 +22,16 @@
     COPY . .
 
     # Collect static files (optional, can be handled in docker-compose command)
-    # RUN python manage.py collectstatic --noinput
+    RUN python manage.py collectstatic --noinput
+
+    # Make and apply migrations 
+    RUN python3 manage.py makemigrations
+    RUN python3 manage.py migrate
 
     # Switch to the non-root user
     # USER celeryuser
     # Create a non-root user
-    RUN adduser -D celeryuser
+    USER celeryuser
 
     # Expose port 8000
     EXPOSE 8000

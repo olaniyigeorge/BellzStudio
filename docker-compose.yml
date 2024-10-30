@@ -7,17 +7,15 @@ services:
     ports:
       - "8000:8000"  
     env_file:
-      - .env  # Add your environment variables here
+      - .env 
     depends_on:
       - redis
-    # environment:
-    #   - DJANGO_SETTINGS_MODULE=BellzStudio.settings  # Set your Django settings module
     networks:
       - bellz_network
 
   celery:
     build: .
-    command: celery -A BellzStudio worker --loglevel=info
+    command: ["celery", "-A", "BellzStudio", "worker", "--uid=celeryuser", "--loglevel=info"] # celery -A BellzStudio worker --loglevel=info
     volumes:
       - .:/var/www
     depends_on:
@@ -25,23 +23,19 @@ services:
       - redis
     env_file:
       - .env  
-    # environment:
-    #   - CELERY_BROKER_URL=redis://redis:6379/0
     networks:
       - bellz_network
 
   celery-beat:
     build: .
-    command: celery -A BellzStudio beat --loglevel=info
+    command:  
     volumes:
       - .:/var/www
     depends_on:
       - celery
       - redis
     env_file:
-      - .env  
-    # environment:
-    #   - CELERY_BROKER_URL=redis://redis:6379/0
+      - .env 
     networks:
       - bellz_network
 

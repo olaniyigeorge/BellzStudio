@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save, pre_save
 
+from .tasks import notify_subscribers_of_new_note
 from main.models import User
 from .models import IdeaTag, Note, Reader
 from django.utils.text import slugify 
@@ -82,3 +83,12 @@ def create_reader_profile(sender, instance, created, *args, **kwargs):
             print(f"Reader profile wasn't created: {e}")
             return None
         
+
+# ----- Async Tasks ------
+@receiver(post_save, sender=Note) 
+def notify_subs_of_new_note(sender, instance, created, *args, **kwargs): 
+    if created:
+       note_body_excerpt = instance.text[:200]
+       level = instance.privacy_level.level
+       print("Queuing email notification for...")
+       notify_subscribers_of_new_note.delay(note_body_excerpt, level)

@@ -24,23 +24,24 @@ from celery.schedules import crontab
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-i@(jb)9@2j62kw0_y-y)+urixz)lte3or(u81o157)3%3n9d zh"
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Deployment Environment  --- "STAGE" | "DEV"   -----  DEBUG is True for both
-ENVT = "DEV"
+ENVT = os.getenv('ENVT')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = [
-    "https://bellzstudio.onrender.com/", 
-    "bellzstudio.onrender.com", 
-    "localhost",
-    ".vercel.app",
-    ".now.sh",
-    "127.0.0.1"
-    ]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split()
+# [
+#     "https://bellzstudio.onrender.com/", 
+#     "bellzstudio.onrender.com", 
+#     "localhost",
+#     ".vercel.app",
+#     ".now.sh",
+#     "127.0.0.1"
+# ]
 
 
 # Application definition
@@ -124,19 +125,16 @@ if ENVT == "DEV":
         }
         }
 elif ENVT == "STAGE":
-    database_url = os.environ.get("DATABASE_URL")
-    DATABASES = {'default': dj_database_url.parse(database_url)}
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'bellzstudio',
-#         'USER': 'bellz',
-#         'PASSWORD': '@BellzStudio19',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASSWORD'),
+            'HOST': os.getenv('DB_HOST'),
+            'PORT': os.getenv('DB_PORT')
+        }
+    }
 
 
 # Password validation
@@ -228,3 +226,13 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(hour=8, minute=30, day_of_week=1),  # Monday is 1
     },
 }
+
+
+# if DEBUG == True:
+if ENVT == "DEV":
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'olaniyigeorge77@gmail.com'  
+# else:
+if ENVT == "STAGE":
+    EMAIL_BACKEND = 'django_ses.SESBackend'
+    DEFAULT_FROM_EMAIL = 'olaniyigeorge77@gmail.com' 
