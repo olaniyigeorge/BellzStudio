@@ -36,17 +36,16 @@ class User(AbstractUser):
 
 
 
-# class Profile(models.Model):
-#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-#     user = models.OneToOneField(User, on_delete=models.SET_NULL, null=True, blank=False)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,)
+    image = models.ImageField(upload_to="media/users/images")
 
+    def save(self, *args, **kwargs):
+        self.id = self.user.id
+        return super().save(*args, **kwargs)
 
-#     def save(self, *args, **kwargs):
-#         self.id = self.user.id
-#         return super().save(*args, **kwargs)
-
-#     def __str__(self):
-#         return self.user.email
+    def __str__(self):
+        return self.user.email
 
 
 

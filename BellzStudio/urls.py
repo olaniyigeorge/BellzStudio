@@ -27,6 +27,10 @@ urlpatterns = [
     path("dev-stories/", include('stories.urls')),
     path("notes/", include('notes.urls')),
 
+    # ---- API ROUTES ----
+    path("api/accounts/", include('main.apiUrls')),
+    path("api/notes/", include('notes.apiUrls')),
+
     
 ] + static(settings.STATIC_URL)
 # + static(settings.STATIC_URL)

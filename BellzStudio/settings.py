@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 from dotenv import load_dotenv # type: ignore
@@ -27,11 +28,17 @@ from celery.schedules import crontab
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # Deployment Environment  --- "STAGE" | "DEV"   -----  DEBUG is True for both
-ENVT = os.getenv('ENVT')
+# ENVT = os.getenv('ENVT')
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
+# # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = os.getenv('DEBUG') == 'True'
+
+
+ENVT = "DEV"
+DEBUG = True
+print(DEBUG)
+print(ENVT)
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split()
 # [
@@ -66,6 +73,7 @@ INSTALLED_APPS = [
     # Third party apps
     # 'corsheaders',
     'rest_framework',
+    "rest_framework_simplejwt",
     'django_celery_beat',
 
 ]
@@ -199,7 +207,18 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 
+}
+
+SIMPLE_JWT = {
+    # Cookie expiry date on client
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=2),
+    # Cookie expiry date / 7 * 24  on client iif Remember Me is True
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    "UPDATE_LAST_LOGIN": True
 }
 
 # Celery Configuration Options
